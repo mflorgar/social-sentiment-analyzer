@@ -1,0 +1,90 @@
+[
+  {
+    "id": "fb_001",
+    "platform": "facebook",
+    "author": "BrandCorp",
+    "text": "Lanzamos nuestra nueva colección de verano. ¿Qué te parece?",
+    "created_at": "2026-04-01T10:00:00",
+    "likes": 1240,
+    "shares": 87,
+    "reach": 15800,
+    "media_type": "carousel",
+    "hashtags": ["#verano2026", "#moda", "#lanzamiento"],
+    "comments": [
+      {"id": "c1", "text": "Me encanta, los colores son preciosos", "author": "user1", "likes": 12},
+      {"id": "c2", "text": "Qué maravilla, ya los estoy encargando", "author": "user2", "likes": 8},
+      {"id": "c3", "text": "Demasiado caros para la calidad que ofrecen", "author": "user3", "likes": 4},
+      {"id": "c4", "text": "Increíble diseño, felicitaciones al equipo", "author": "user4", "likes": 15}
+    ]
+  },
+  {
+    "id": "ig_001",
+    "platform": "instagram",
+    "author": "BrandCorp",
+    "text": "Behind the scenes de nuestra campaña de otoño",
+    "created_at": "2026-04-03T14:30:00",
+    "likes": 3420,
+    "shares": 0,
+    "reach": 28900,
+    "media_type": "video",
+    "hashtags": ["#behindthescenes", "#otoño", "#campaña"],
+    "comments": [
+      {"id": "c5", "text": "Qué aesthetic, no puedo con tanta belleza", "author": "user5", "likes": 40},
+      {"id": "c6", "text": "El video es arte puro", "author": "user6", "likes": 22},
+      {"id": "c7", "text": "Esto no es representativo del producto real", "author": "user7", "likes": 3}
+    ]
+  },
+  {
+    "id": "fb_002",
+    "platform": "facebook",
+    "author": "BrandCorp",
+    "text": "Aviso importante: retraso en envíos esta semana por problemas logísticos",
+    "created_at": "2026-04-05T09:15:00",
+    "likes": 45,
+    "shares": 12,
+    "reach": 9400,
+    "media_type": "text",
+    "hashtags": [],
+    "comments": [
+      {"id": "c8", "text": "Llevo esperando mi pedido dos semanas, esto es inaceptable", "author": "user8", "likes": 55},
+      {"id": "c9", "text": "Gracias por avisar, entendemos que pueden pasar cosas", "author": "user9", "likes": 28},
+      {"id": "c10", "text": "Siempre con los mismos problemas, cambiaré de marca", "author": "user10", "likes": 41},
+      {"id": "c11", "text": "Espero que se resuelva pronto, confío en la marca", "author": "user11", "likes": 18}
+    ]
+  },
+  {
+    "id": "ig_002",
+    "platform": "instagram",
+    "author": "BrandCorp",
+    "text": "Concurso: sorteamos 3 productos entre los comentarios más creativos",
+    "created_at": "2026-04-07T18:00:00",
+    "likes": 5670,
+    "shares": 0,
+    "reach": 41200,
+    "media_type": "image",
+    "hashtags": ["#concurso", "#sorteo", "#participa"],
+    "comments": [
+      {"id": "c12", "text": "Participo, ojalá tenga suerte esta vez", "author": "user12", "likes": 14},
+      {"id": "c13", "text": "Qué emoción, siempre me encantan sus sorteos", "author": "user13", "likes": 9},
+      {"id": "c14", "text": "Los concursos siempre los ganan las mismas personas", "author": "user14", "likes": 7},
+      {"id": "c15", "text": "Cuenta conmigo, estoy dentro", "author": "user15", "likes": 11}
+    ]
+  },
+  {
+    "id": "fb_003",
+    "platform": "facebook",
+    "author": "BrandCorp",
+    "text": "Hemos renovado nuestra política de devoluciones. Ahora 60 días sin preguntas.",
+    "created_at": "2026-04-10T11:45:00",
+    "likes": 820,
+    "shares": 230,
+    "reach": 22300,
+    "media_type": "text",
+    "hashtags": ["#devoluciones", "#atencionalcliente"],
+    "comments": [
+      {"id": "c16", "text": "Excelente noticia, así sí da gusto comprar", "author": "user16", "likes": 30},
+      {"id": "c17", "text": "Por fin, era una política que necesitaba mejora", "author": "user17", "likes": 18},
+      {"id": "c18", "text": "Perfecto, gracias por escuchar al cliente", "author": "user18", "likes": 22}
+    ]
+  }
+]

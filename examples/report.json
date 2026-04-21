@@ -1,0 +1,231 @@
+{
+  "run_id": "f9064f76-0e85-403f-93fa-a023afde7bfa",
+  "generated_at": "2026-04-21T22:49:58.438829",
+  "posts_analyzed": 5,
+  "comments_analyzed": 18,
+  "post_sentiments": [
+    {
+      "post_id": "fb_001",
+      "platform": "facebook",
+      "overall_sentiment": "positive",
+      "overall_score": 0.25,
+      "comment_sentiments": [
+        {
+          "comment_id": "c1",
+          "sentiment": "positive",
+          "score": 0.6666666666666666,
+          "keywords": [
+            "encanta",
+            "preciosos"
+          ]
+        },
+        {
+          "comment_id": "c2",
+          "sentiment": "positive",
+          "score": 0.3333333333333333,
+          "keywords": [
+            "maravilla"
+          ]
+        },
+        {
+          "comment_id": "c3",
+          "sentiment": "negative",
+          "score": -0.6666666666666666,
+          "keywords": [
+            "caros",
+            "demasiado"
+          ]
+        },
+        {
+          "comment_id": "c4",
+          "sentiment": "positive",
+          "score": 0.6666666666666666,
+          "keywords": [
+            "felicitaciones",
+            "increíble"
+          ]
+        }
+      ],
+      "engagement_score": 1521.0,
+      "top_keywords": [
+        "encanta",
+        "preciosos",
+        "maravilla",
+        "caros",
+        "demasiado"
+      ]
+    },
+    {
+      "post_id": "ig_001",
+      "platform": "instagram",
+      "overall_sentiment": "mixed",
+      "overall_score": 0.111,
+      "comment_sentiments": [
+        {
+          "comment_id": "c5",
+          "sentiment": "mixed",
+          "score": 0.3333333333333333,
+          "keywords": [
+            "aesthetic",
+            "belleza",
+            "no"
+          ]
+        },
+        {
+          "comment_id": "c6",
+          "sentiment": "positive",
+          "score": 0.3333333333333333,
+          "keywords": [
+            "arte"
+          ]
+        },
+        {
+          "comment_id": "c7",
+          "sentiment": "negative",
+          "score": -0.3333333333333333,
+          "keywords": [
+            "no"
+          ]
+        }
+      ],
+      "engagement_score": 3435.0,
+      "top_keywords": [
+        "no",
+        "aesthetic",
+        "belleza",
+        "arte"
+      ]
+    },
+    {
+      "post_id": "fb_002",
+      "platform": "facebook",
+      "overall_sentiment": "mixed",
+      "overall_score": -0.167,
+      "comment_sentiments": [
+        {
+          "comment_id": "c8",
+          "sentiment": "negative",
+          "score": -0.3333333333333333,
+          "keywords": [
+            "inaceptable"
+          ]
+        },
+        {
+          "comment_id": "c9",
+          "sentiment": "positive",
+          "score": 0.3333333333333333,
+          "keywords": [
+            "gracias"
+          ]
+        },
+        {
+          "comment_id": "c10",
+          "sentiment": "negative",
+          "score": -1.0,
+          "keywords": [
+            "cambiaré",
+            "mismos",
+            "problemas"
+          ]
+        },
+        {
+          "comment_id": "c11",
+          "sentiment": "positive",
+          "score": 0.3333333333333333,
+          "keywords": [
+            "confío"
+          ]
+        }
+      ],
+      "engagement_score": 101.0,
+      "top_keywords": [
+        "inaceptable",
+        "gracias",
+        "cambiaré",
+        "mismos",
+        "problemas"
+      ]
+    },
+    {
+      "post_id": "ig_002",
+      "platform": "instagram",
+      "overall_sentiment": "neutral",
+      "overall_score": 0.083,
+      "comment_sentiments": [
+        {
+          "comment_id": "c12",
+          "sentiment": "neutral",
+          "score": 0.0,
+          "keywords": []
+        },
+        {
+          "comment_id": "c13",
+          "sentiment": "positive",
+          "score": 0.3333333333333333,
+          "keywords": [
+            "emoción"
+          ]
+        },
+        {
+          "comment_id": "c14",
+          "sentiment": "neutral",
+          "score": 0.0,
+          "keywords": []
+        },
+        {
+          "comment_id": "c15",
+          "sentiment": "neutral",
+          "score": 0.0,
+          "keywords": []
+        }
+      ],
+      "engagement_score": 5690.0,
+      "top_keywords": [
+        "emoción"
+      ]
+    },
+    {
+      "post_id": "fb_003",
+      "platform": "facebook",
+      "overall_sentiment": "positive",
+      "overall_score": 0.667,
+      "comment_sentiments": [
+        {
+          "comment_id": "c16",
+          "sentiment": "positive",
+          "score": 1.0,
+          "keywords": [
+            "excelente",
+            "gusto",
+            "sí"
+          ]
+        },
+        {
+          "comment_id": "c17",
+          "sentiment": "positive",
+          "score": 0.3333333333333333,
+          "keywords": [
+            "mejora"
+          ]
+        },
+        {
+          "comment_id": "c18",
+          "sentiment": "positive",
+          "score": 0.6666666666666666,
+          "keywords": [
+            "gracias",
+            "perfecto"
+          ]
+        }
+      ],
+      "engagement_score": 1525.0,
+      "top_keywords": [
+        "excelente",
+        "gusto",
+        "sí",
+        "mejora",
+        "gracias"
+      ]
+    }
+  ]
+}
