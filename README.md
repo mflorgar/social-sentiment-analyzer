@@ -14,6 +14,21 @@ classifier, so you can clone and demo without any API key. Real
 providers (Azure Text Analytics, Anthropic, OpenAI) plug in via
 environment variables without touching the core code.
 
+## 👀 Live preview
+
+Want to see the dashboard **without installing anything**? There is a
+static preview with mock data deployed on Vercel:
+
+**Live demo**: https://social-sentiment-demo.vercel.app *(update with real URL after deploy)*
+
+The demo lives in the [`demo/`](demo/) folder of this same repo. It is
+a single self-contained HTML file with Plotly from CDN, so Vercel
+serves it without any build step. See [`demo/README.md`](demo/README.md)
+for how to deploy your own copy.
+
+Use the **Regenerar datos** button to re-roll the mock data and
+**Escenario** to cycle between positive, negative and balanced datasets.
+
 ## Why this repo
 
 Reference architecture for the kind of project I delivered at EY:
