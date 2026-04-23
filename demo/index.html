@@ -1,104 +1,105 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Social Sentiment Dashboard — Demo</title>
+  <title>Lumé Cosmetics · Social Sentiment Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Live demo of the social sentiment dashboard with mock data." />
+  <meta name="description" content="Demo interactiva de análisis de sentimiento en redes sociales para un equipo de marketing." />
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #FAFAF9;
+      --bg: #FAF7F5;
       --card-bg: #FFFFFF;
-      --card-border: #EAEAE7;
-      --text: #2A2A2A;
-      --muted: #6B6B6B;
-      --accent: #5B6B5B;
+      --card-border: #ECE6E2;
+      --text: #2A2420;
+      --muted: #7A6B64;
+      --muted-soft: #A89B94;
+
+      --accent: #5B6B5B;           /* sage oscuro */
+      --brand: #C9A7A7;            /* rosa polvo (brand) */
+      --brand-dark: #A87E7E;
+
       --positive: #7BA69F;
       --negative: #C8856D;
       --neutral:  #9CA3AF;
       --mixed:    #C9A89A;
+
+      --alert-bg: #FDF2EE;
+      --alert-border: #E8C8BB;
+      --win-bg: #EEF5F2;
+      --win-border: #BFD9CF;
+      --insight-bg: #F5EEE9;
+      --insight-border: #DCC9BC;
     }
+
     * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
     body {
-      margin: 0;
-      padding: 32px 24px;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
-                   Helvetica, Arial, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.45;
+      line-height: 1.5;
+      padding: 24px 20px 48px;
     }
-    .container { max-width: 1080px; margin: 0 auto; }
+    .container { max-width: 1200px; margin: 0 auto; }
 
-    header { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
-    h1 { margin: 0 0 4px; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
-    .meta { color: var(--muted); font-size: 12px; }
-    .demo-pill {
+    /* ---------- Header ---------- */
+    header.dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand) 0%, #E8CCC7 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+      font-size: 16px;
+    }
+
+    .brand-meta h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .brand-meta p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+
+    .top-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .pill {
       font-size: 11px;
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 999px;
-      border: 1px solid var(--card-border);
       background: #fff;
       color: var(--muted);
+      border: 1px solid var(--card-border);
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .notice {
-      background: #fff;
-      border: 1px solid var(--card-border);
-      border-left: 3px solid var(--accent);
-      padding: 10px 14px;
-      color: var(--muted);
-      font-size: 12px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-    }
-    .notice a { color: var(--text); }
-
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      margin: 20px 0 24px;
-    }
-    .kpi {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 14px 16px;
-    }
-    .kpi-label {
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 4px;
-    }
-    .kpi-value { font-size: 24px; font-weight: 600; }
-    .kpi-suffix { font-size: 14px; font-weight: 500; margin-left: 2px; }
-
-    .chart-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    .chart-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 6px;
-      overflow: hidden;
-      min-height: 300px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      margin: 16px 0 0;
-      flex-wrap: wrap;
-    }
     .btn {
       font-family: inherit;
       font-size: 12px;
@@ -110,61 +111,389 @@
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s;
     }
-    .btn:hover { border-color: var(--text); }
+    .btn:hover { border-color: var(--text); background: #fff; }
+    .btn.primary { background: var(--text); color: #fff; border-color: var(--text); }
 
-    @media (max-width: 760px) {
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-      .chart-grid { grid-template-columns: 1fr; }
+    /* ---------- Campaign banner ---------- */
+    .campaign {
+      background: linear-gradient(135deg, #FFF 0%, #FBF5F1 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 20px 0 24px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+    .campaign h2 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .campaign p { margin: 0; color: var(--muted); font-size: 13px; }
+    .campaign .tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 3px 8px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .campaign-summary {
+      text-align: right;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .campaign-summary strong {
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
     }
 
+    /* ---------- KPI grid ---------- */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .kpi {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .kpi-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .kpi-value {
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.1;
+    }
+    .kpi-suffix { font-size: 14px; font-weight: 500; margin-left: 2px; }
+    .kpi-delta {
+      font-size: 11px;
+      margin-top: 4px;
+      color: var(--muted);
+    }
+    .kpi-delta.up { color: #2a7a3e; }
+    .kpi-delta.down { color: #b04a3e; }
+
+    /* ---------- Charts grid ---------- */
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin: 28px 0 12px;
+    }
+
+    .row {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .row.two { grid-template-columns: 1fr 1fr; }
+    .row.one { grid-template-columns: 1fr; }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 14px 14px 8px;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0 0 10px;
+      padding: 0 4px;
+    }
+    .card-subtitle {
+      font-size: 11px;
+      color: var(--muted);
+      margin: -8px 0 10px;
+      padding: 0 4px;
+    }
+    .chart-slot { width: 100%; height: 280px; }
+
+    /* ---------- Word cloud ---------- */
+    .wordcloud-card { padding: 20px; }
+    .wordcloud-canvas {
+      width: 100%;
+      height: 320px;
+      display: block;
+      border-radius: 6px;
+      background: #FCFAF8;
+    }
+    .wordcloud-legend {
+      display: flex;
+      gap: 14px;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .wordcloud-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .wordcloud-legend .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* ---------- Top posts table ---------- */
+    .posts-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .posts-table th, .posts-table td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--card-border);
+      vertical-align: top;
+    }
+    .posts-table th {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+    .posts-table tr:last-child td { border-bottom: none; }
+    .post-text { color: var(--text); }
+    .post-meta { color: var(--muted); font-size: 11px; }
+
+    .sentiment-chip {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .sentiment-chip.positive { background: #E4EFEC; color: #3f6d63; }
+    .sentiment-chip.negative { background: #F5E2D9; color: #8c5541; }
+    .sentiment-chip.neutral  { background: #EAECEF; color: #4f5764; }
+    .sentiment-chip.mixed    { background: #F2E7DF; color: #7a5c4a; }
+
+    .platform-chip {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #F3EEEA;
+      color: var(--muted);
+      text-transform: capitalize;
+    }
+
+    /* ---------- Insights cards ---------- */
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .insight {
+      border-radius: 10px;
+      padding: 16px 18px;
+      border: 1px solid;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .insight.alert  { background: var(--alert-bg); border-color: var(--alert-border); }
+    .insight.win    { background: var(--win-bg);  border-color: var(--win-border); }
+    .insight.insight-neutral { background: var(--insight-bg); border-color: var(--insight-border); }
+
+    .insight-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .insight.alert .insight-label   { color: #a74a2f; }
+    .insight.win .insight-label     { color: #3f6d63; }
+    .insight.insight-neutral .insight-label { color: #8c6c50; }
+
+    .insight-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .insight-body {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .insight-action {
+      font-size: 12px;
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(0,0,0,0.08);
+      color: var(--text);
+    }
+    .insight-action strong { color: var(--text); }
+
+    /* ---------- Footer ---------- */
     footer {
-      margin-top: 28px;
+      margin-top: 40px;
       font-size: 11px;
       color: var(--muted);
       text-align: center;
+      line-height: 1.6;
     }
     footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+
+    /* ---------- Responsive breakpoints ---------- */
+    @media (max-width: 980px) {
+      .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 760px) {
+      .row.two { grid-template-columns: 1fr; }
+      .insights-grid { grid-template-columns: 1fr; }
+      .campaign { grid-template-columns: 1fr; }
+      .campaign-summary { text-align: left; }
+    }
+    @media (max-width: 520px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      body { padding: 16px 12px 32px; }
+      .chart-slot { height: 260px; }
+      .wordcloud-canvas { height: 240px; }
+    }
   </style>
 </head>
 <body>
 <div class="container">
-  <header>
-    <div>
-      <h1>Social Sentiment Dashboard</h1>
-      <div class="meta" id="meta">Loading…</div>
+
+  <!-- HEADER -->
+  <header class="dash-header">
+    <div class="brand-mark">
+      <div class="brand-circle">L</div>
+      <div class="brand-meta">
+        <h1>Lumé Cosmetics · Social Sentiment</h1>
+        <p id="report-meta">Loading…</p>
+      </div>
     </div>
-    <span class="demo-pill">demo data</span>
+    <div class="top-controls">
+      <span class="pill">demo data</span>
+      <button class="btn" id="refresh-btn">↻ Regenerar</button>
+      <button class="btn primary" id="scenario-btn">Escenario: lanzamiento</button>
+    </div>
   </header>
 
-  <div class="notice">
-    Demo estática con datos simulados. Esta página muestra el aspecto del dashboard
-    que genera <strong>social-sentiment-analyzer</strong> tras analizar publicaciones y
-    comentarios reales. Para ejecutarlo sobre tu propia data,
-    <a href="https://github.com/mflorgar/social-sentiment-analyzer" target="_blank" rel="noopener">clona el repo</a>.
+  <!-- CAMPAIGN BANNER -->
+  <div class="campaign">
+    <div>
+      <span class="tag">campaña activa</span>
+      <h2>Lanzamiento · Sérum Glow Révéal</h2>
+      <p id="campaign-copy">14 días de buzz en Facebook e Instagram tras el drop del nuevo sérum antiedad.</p>
+    </div>
+    <div class="campaign-summary">
+      <strong>Hashtag principal</strong><br>
+      #glowreveal · #lumeroutine<br>
+      <strong id="campaign-reach">— alcance total</strong>
+    </div>
   </div>
 
+  <!-- KPIs -->
+  <div class="section-title">Resumen ejecutivo</div>
   <div class="kpi-grid" id="kpis"></div>
 
-  <div class="chart-grid">
-    <div class="chart-card" id="chart-distribution"></div>
-    <div class="chart-card" id="chart-platform"></div>
-    <div class="chart-card" id="chart-engagement"></div>
-    <div class="chart-card" id="chart-keywords"></div>
+  <!-- CHARTS -->
+  <div class="section-title">Análisis de sentimiento</div>
+  <div class="row two">
+    <div class="card">
+      <h3 class="card-title">Distribución de sentimiento</h3>
+      <p class="card-subtitle">Comentarios clasificados en positivo, negativo, neutro y mixto</p>
+      <div class="chart-slot" id="chart-distribution"></div>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Sentimiento por plataforma</h3>
+      <p class="card-subtitle">Dónde se concentra la conversación</p>
+      <div class="chart-slot" id="chart-platform"></div>
+    </div>
   </div>
 
-  <div class="actions">
-    <button class="btn" id="refresh-btn">↻ Regenerar datos</button>
-    <button class="btn" id="flip-btn">⇄ Escenario: positivo / negativo / mixto</button>
+  <div class="row two">
+    <div class="card">
+      <h3 class="card-title">Evolución en el tiempo</h3>
+      <p class="card-subtitle">Cómo ha ido cambiando el sentimiento día a día</p>
+      <div class="chart-slot" id="chart-timeline"></div>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Engagement vs sentimiento</h3>
+      <p class="card-subtitle">Tamaño = alcance del post</p>
+      <div class="chart-slot" id="chart-engagement"></div>
+    </div>
   </div>
+
+  <!-- WORD CLOUD -->
+  <div class="section-title">De qué hablan los usuarios</div>
+  <div class="row one">
+    <div class="card wordcloud-card">
+      <h3 class="card-title">Nube de palabras</h3>
+      <p class="card-subtitle">Las palabras más repetidas en los comentarios. El color indica el sentimiento dominante de cada palabra.</p>
+      <canvas id="wordcloud-canvas" class="wordcloud-canvas"></canvas>
+      <div class="wordcloud-legend">
+        <span><i class="dot" style="background: var(--positive)"></i> positivo</span>
+        <span><i class="dot" style="background: var(--negative)"></i> negativo</span>
+        <span><i class="dot" style="background: var(--neutral)"></i> neutro</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP KEYWORDS + TOP POSTS -->
+  <div class="row two">
+    <div class="card">
+      <h3 class="card-title">Top keywords por frecuencia</h3>
+      <p class="card-subtitle">Temas más discutidos esta campaña</p>
+      <div class="chart-slot" id="chart-keywords"></div>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Top posts por engagement</h3>
+      <p class="card-subtitle">Los 5 con más reacciones en la campaña</p>
+      <table class="posts-table" id="top-posts-table">
+        <thead>
+          <tr>
+            <th>Post</th>
+            <th>Plataforma</th>
+            <th>Sentimiento</th>
+            <th style="text-align: right;">Engagement</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- INSIGHTS -->
+  <div class="section-title">Insights accionables para marketing</div>
+  <div class="insights-grid" id="insights"></div>
 
   <footer>
-    Generated by <a href="https://github.com/mflorgar/social-sentiment-analyzer" target="_blank" rel="noopener">social-sentiment-analyzer</a> · Plotly
-    · demo data · <a href="https://linkedin.com/in/mariafloresgarcia" target="_blank" rel="noopener">María Flores</a>
+    Demo interactiva ·
+    <a href="https://github.com/mflorgar/social-sentiment-analyzer" target="_blank" rel="noopener">social-sentiment-analyzer</a>
+    · Marca ficticia “Lumé Cosmetics” creada para este demo.<br>
+    Hecha por <a href="https://linkedin.com/in/mariafloresgarcia" target="_blank" rel="noopener">María Flores</a>.
   </footer>
+
 </div>
 
 <script>
-  // ---------- Palette (must match dashboard.py) ----------
+  // ---------------- Palette ----------------
   const PALETTE = {
     positive: '#7BA69F',
     negative: '#C8856D',
@@ -172,233 +501,515 @@
     mixed:    '#C9A89A',
   };
   const ACCENT = '#5B6B5B';
-  const GRID_COLOR = '#ECECE9';
+  const BRAND = '#C9A7A7';
+  const GRID = '#ECECE9';
 
   const BASE_LAYOUT = {
-    font: { family: 'Helvetica, Arial, sans-serif', size: 11, color: '#2A2A2A' },
-    margin: { l: 40, r: 20, t: 40, b: 40 },
+    font: { family: 'Inter, Helvetica, Arial, sans-serif', size: 11, color: '#2A2420' },
+    margin: { l: 44, r: 16, t: 10, b: 36 },
     paper_bgcolor: 'white',
     plot_bgcolor: 'white',
-    legend: { font: { size: 10 }, bgcolor: 'rgba(0,0,0,0)', orientation: 'h', y: -0.2 },
-    xaxis: { gridcolor: GRID_COLOR, zerolinecolor: GRID_COLOR },
-    yaxis: { gridcolor: GRID_COLOR, zerolinecolor: GRID_COLOR },
-    height: 280,
+    legend: { font: { size: 10 }, bgcolor: 'rgba(0,0,0,0)', orientation: 'h', y: -0.22 },
+    xaxis: { gridcolor: GRID, zerolinecolor: GRID },
+    yaxis: { gridcolor: GRID, zerolinecolor: GRID },
   };
-  const PLOTLY_CONFIG = { displaylogo: false, responsive: true, staticPlot: false };
+  const PLOTLY_CFG = { displaylogo: false, responsive: true };
 
-  // ---------- Mock data generation ----------
-  const PLATFORMS = ['facebook', 'instagram'];
-  const SENTIMENTS = ['positive', 'negative', 'neutral', 'mixed'];
-
-  // Three scenarios to cycle through so the demo doesn't look flat
+  // ---------------- Mock data ----------------
   const SCENARIOS = [
-    { name: 'positive',  weights: { positive: 0.58, negative: 0.12, neutral: 0.22, mixed: 0.08 } },
-    { name: 'negative',  weights: { positive: 0.18, negative: 0.55, neutral: 0.18, mixed: 0.09 } },
-    { name: 'balanced',  weights: { positive: 0.34, negative: 0.30, neutral: 0.26, mixed: 0.10 } },
+    {
+      name: 'lanzamiento',
+      label: 'Lanzamiento',
+      weights: { positive: 0.56, negative: 0.16, neutral: 0.22, mixed: 0.06 },
+      trend: 'rising',
+    },
+    {
+      name: 'crisis',
+      label: 'Crisis de reviews',
+      weights: { positive: 0.22, negative: 0.54, neutral: 0.16, mixed: 0.08 },
+      trend: 'falling',
+    },
+    {
+      name: 'organico',
+      label: 'Mes orgánico',
+      weights: { positive: 0.36, negative: 0.22, neutral: 0.34, mixed: 0.08 },
+      trend: 'flat',
+    },
   ];
   let scenarioIdx = 0;
 
-  const KEYWORD_POOL = [
-    'product', 'service', 'delivery', 'support', 'price',
-    'quality', 'design', 'experience', 'team', 'launch',
-    'bug', 'feature', 'waiting', 'excellent', 'refund',
+  const SPANISH_AUTHORS = [
+    'ana_beauty', 'paula.nights', 'lucia_glow', 'martarouge', 'lagatubela',
+    'clarinette', 'sofia_etc', 'valerie.b', 'rocioamarte', 'malu_skin',
+    'bellevanille', 'lu_cosmetica', 'helena_skin', 'nayra_ruiz', 'camila_r',
+    'inesstyle', 'evaporcel', 'noor_beauty', 'julietaflores', 'amelieeeee',
   ];
 
-  // weighted pick
+  // ---- sample post texts with sentiment hints (in Spanish for Meta demo) ----
+  const POST_TEMPLATES_POS = [
+    'Llevo dos semanas con el Sérum Glow Révéal y mi piel luce muchísimo mejor, tono unificado y brillo real.',
+    'Por fin un sérum que huele increíble y no deja la cara pegajosa. Mi rutina de la mañana ya no es la misma.',
+    'Textura ligera, se absorbe rápido y la piel queda como filtro. Le doy 10/10 al nuevo lanzamiento de Lumé.',
+    'Mi madre me robó el sérum, así que tendré que comprar otro. Buena señal jaja.',
+    'Después de un mes, mis manchas están notablemente más claras. Vale cada euro.',
+  ];
+  const POST_TEMPLATES_NEG = [
+    'Me llegó el envío tarde y encima la caja venía abollada. Muy mal servicio de Lumé esta vez.',
+    'El precio del nuevo sérum se pasa, por 45€ esperaba más volumen. Decepcionada.',
+    'Me dio una irritación horrible, pensé que era hipoalergénico. Voy a pedir reembolso.',
+    'Pagué el envío exprés y llegó igual que el normal. ¿Dónde reclamo?',
+    'No noto diferencia después de 10 días. Marketing puro.',
+  ];
+  const POST_TEMPLATES_NEU = [
+    'Acabo de recibir el Sérum Glow Révéal, empezaré a usarlo hoy. Ya os iré contando.',
+    'Alguien sabe si se puede usar con retinol? La descripción no es clara.',
+    'Recibido en 3 días. Empaque bonito, típico de Lumé.',
+    '¿Se puede usar en piel mixta? Gracias de antemano.',
+    'Repasando los ingredientes, veo que tiene niacinamida y ácido hialurónico.',
+  ];
+  const POST_TEMPLATES_MIX = [
+    'Me encanta el aroma y la textura, pero el precio me parece alto para 30ml.',
+    'Buen producto pero el envío tardó 8 días. Mejorar logística por favor.',
+    'El sérum funciona, eso sí, pero el frasco se atasca con frecuencia.',
+  ];
+
+  const WORDS_POS = ['glow','piel','suave','amo','hidratación','luminosidad','textura','rutina','aroma','resultados','manchas','brillo','acabado','impecable','absorbe'];
+  const WORDS_NEG = ['precio','caro','irritación','envío','tardanza','reembolso','decepción','alergia','empaque','abollado','reclamo','logística','devolución','pegajoso'];
+  const WORDS_NEU = ['producto','ingredientes','retinol','niacinamida','tamaño','frasco','descripción','consulta','pregunta','información','días','rutina','noche','mañana'];
+
+  const HASHTAGS = ['#glowreveal','#lumeroutine','#serumglow','#skincare','#rutinanatural','#meta'];
+
+  function sentimentWords(s) {
+    if (s === 'positive') return WORDS_POS;
+    if (s === 'negative') return WORDS_NEG;
+    if (s === 'neutral')  return WORDS_NEU;
+    return [...WORDS_POS.slice(0,4), ...WORDS_NEG.slice(0,4)];
+  }
+
   function pickSentiment(weights) {
     const r = Math.random();
     let acc = 0;
-    for (const s of SENTIMENTS) {
+    for (const s of ['positive','negative','neutral','mixed']) {
       acc += weights[s];
       if (r < acc) return s;
     }
     return 'neutral';
   }
 
-  function randomKeywords(n = 2) {
-    const pool = [...KEYWORD_POOL];
-    const picks = [];
-    for (let i = 0; i < n; i++) {
-      const idx = Math.floor(Math.random() * pool.length);
-      picks.push(pool.splice(idx, 1)[0]);
-    }
-    return picks;
+  function templateFor(s) {
+    if (s === 'positive') return POST_TEMPLATES_POS[Math.floor(Math.random()*POST_TEMPLATES_POS.length)];
+    if (s === 'negative') return POST_TEMPLATES_NEG[Math.floor(Math.random()*POST_TEMPLATES_NEG.length)];
+    if (s === 'neutral')  return POST_TEMPLATES_NEU[Math.floor(Math.random()*POST_TEMPLATES_NEU.length)];
+    return POST_TEMPLATES_MIX[Math.floor(Math.random()*POST_TEMPLATES_MIX.length)];
   }
 
-  function generateData(weights) {
+  function randInt(min, max) { return Math.floor(Math.random()*(max-min+1))+min; }
+
+  function generate(scenario) {
+    const { weights, trend } = scenario;
     const posts = [];
     const comments = [];
 
-    const NUM_POSTS = 18;
+    const days = 14;
+    const today = new Date();
+
+    const NUM_POSTS = 25;
     for (let i = 0; i < NUM_POSTS; i++) {
-      const platform = PLATFORMS[Math.floor(Math.random() * PLATFORMS.length)];
+      const platform = Math.random() < 0.55 ? 'instagram' : 'facebook';
       const sentiment = pickSentiment(weights);
-      const score = ({
-        positive: 0.3 + Math.random() * 0.7,
-        negative: -0.3 - Math.random() * 0.7,
-        neutral: -0.15 + Math.random() * 0.3,
-        mixed: -0.2 + Math.random() * 0.4,
-      })[sentiment];
-      const reach = 200 + Math.floor(Math.random() * 4800);
-      const engagement = Math.floor(reach * (0.04 + Math.random() * 0.12));
+      const dayOffset = randInt(0, days - 1);
+      const date = new Date(today); date.setDate(today.getDate() - dayOffset);
+
+      const reach = randInt(600, 12000);
+      const engagement = Math.floor(reach * (0.03 + Math.random()*0.15));
+      const text = templateFor(sentiment);
+
       posts.push({
         post_id: `p_${i}`,
         platform,
-        author: `user_${i}`,
-        text: `Mock post #${i} about our latest launch`,
+        author: SPANISH_AUTHORS[i % SPANISH_AUTHORS.length],
+        text,
         sentiment,
-        score,
+        score: ({
+          positive: 0.3 + Math.random()*0.7,
+          negative: -0.3 - Math.random()*0.7,
+          neutral: -0.15 + Math.random()*0.3,
+          mixed: -0.2 + Math.random()*0.4,
+        })[sentiment],
         engagement,
         reach,
+        date,
       });
 
-      const numComments = 4 + Math.floor(Math.random() * 8);
+      const numComments = randInt(3, 14);
       for (let c = 0; c < numComments; c++) {
-        const commentSentiment = pickSentiment(weights);
+        // Bias comment sentiment con el post: gente tiende a reaccionar similar
+        let commentSentiment = Math.random() < 0.6 ? sentiment : pickSentiment(weights);
+        // Inyectar sesgo temporal (trend)
+        if (trend === 'rising' && dayOffset < 5 && Math.random() < 0.3) commentSentiment = 'positive';
+        if (trend === 'falling' && dayOffset < 5 && Math.random() < 0.3) commentSentiment = 'negative';
+
+        const pool = sentimentWords(commentSentiment);
+        const keywords = [];
+        const nkw = randInt(1, 3);
+        for (let k = 0; k < nkw; k++) keywords.push(pool[Math.floor(Math.random()*pool.length)]);
+
         comments.push({
           post_id: `p_${i}`,
           platform,
-          comment_id: `c_${i}_${c}`,
           sentiment: commentSentiment,
           score: ({
-            positive: 0.3 + Math.random() * 0.7,
-            negative: -0.3 - Math.random() * 0.7,
-            neutral: -0.15 + Math.random() * 0.3,
-            mixed: -0.2 + Math.random() * 0.4,
+            positive: 0.3+Math.random()*0.7,
+            negative: -0.3-Math.random()*0.7,
+            neutral: -0.15+Math.random()*0.3,
+            mixed: -0.2+Math.random()*0.4,
           })[commentSentiment],
-          keywords: randomKeywords(1 + Math.floor(Math.random() * 2)),
+          keywords,
+          date,
         });
       }
     }
-    return { posts, comments };
+
+    return { posts, comments, days };
   }
 
-  // ---------- KPIs ----------
+  // ---------------- Renderers ----------------
+  const $ = (id) => document.getElementById(id);
+  const fmtInt = (n) => n.toLocaleString('es-ES');
+
+  function renderMeta(scenario, posts, comments) {
+    const now = new Date();
+    $('report-meta').textContent =
+      `Campaña “Sérum Glow Révéal” · ${scenario.label} · generado ${now.toLocaleString('es-ES')}`;
+    const totalReach = posts.reduce((s,p)=>s+p.reach, 0);
+    $('campaign-reach').textContent = `${fmtInt(totalReach)} alcance total`;
+    document.getElementById('scenario-btn').textContent = `Escenario: ${scenario.label}`;
+  }
+
   function renderKpis(posts, comments) {
-    const positive_pct = comments.length
-      ? Math.round((comments.filter(c => c.sentiment === 'positive').length / comments.length) * 1000) / 10
-      : 0;
-    const negative_pct = comments.length
-      ? Math.round((comments.filter(c => c.sentiment === 'negative').length / comments.length) * 1000) / 10
-      : 0;
-    const avg_engagement = posts.length
-      ? Math.round(posts.reduce((s, p) => s + p.engagement, 0) / posts.length)
-      : 0;
+    const positive = comments.filter(c=>c.sentiment==='positive').length;
+    const negative = comments.filter(c=>c.sentiment==='negative').length;
+    const pos_pct = comments.length ? Math.round(positive/comments.length*1000)/10 : 0;
+    const neg_pct = comments.length ? Math.round(negative/comments.length*1000)/10 : 0;
+    const avgEng = posts.length ? Math.round(posts.reduce((s,p)=>s+p.engagement,0)/posts.length) : 0;
+    // Net sentiment score (NPS-like): positive% - negative%
+    const nps = Math.round((pos_pct - neg_pct)*10)/10;
 
     const kpis = [
-      { label: 'Posts',          value: posts.length,    suffix: '',  color: ACCENT },
-      { label: 'Comments',       value: comments.length, suffix: '',  color: ACCENT },
-      { label: 'Positive',       value: positive_pct,    suffix: '%', color: PALETTE.positive },
-      { label: 'Negative',       value: negative_pct,    suffix: '%', color: PALETTE.negative },
-      { label: 'Avg engagement', value: avg_engagement,  suffix: '',  color: ACCENT },
+      { label: 'Posts',    value: posts.length, suffix: '', delta: '+18% vs mes anterior', deltaClass: 'up' },
+      { label: 'Comments', value: comments.length, suffix: '', delta: '+42% vs mes anterior', deltaClass: 'up' },
+      { label: 'Net sentiment', value: (nps>0?'+':'')+nps, suffix: '%', delta: 'pos% – neg%', deltaClass: '' },
+      { label: 'Positivos', value: pos_pct, suffix: '%', color: PALETTE.positive },
+      { label: 'Negativos', value: neg_pct, suffix: '%', color: PALETTE.negative },
     ];
-    document.getElementById('kpis').innerHTML = kpis.map(k => `
+
+    $('kpis').innerHTML = kpis.map(k => `
       <div class="kpi">
         <div class="kpi-label">${k.label}</div>
-        <div class="kpi-value" style="color:${k.color}">
-          ${k.value}<span class="kpi-suffix">${k.suffix}</span>
+        <div class="kpi-value" ${k.color?`style="color:${k.color}"`:''}>
+          ${k.value}<span class="kpi-suffix">${k.suffix||''}</span>
         </div>
+        ${k.delta ? `<div class="kpi-delta ${k.deltaClass||''}">${k.delta}</div>` : ''}
       </div>
     `).join('');
   }
 
-  // ---------- Charts ----------
   function drawDistribution(comments) {
     const counts = {};
-    for (const c of comments) counts[c.sentiment] = (counts[c.sentiment] || 0) + 1;
+    for (const c of comments) counts[c.sentiment] = (counts[c.sentiment]||0)+1;
     const labels = Object.keys(counts);
     const values = labels.map(l => counts[l]);
     const colors = labels.map(l => PALETTE[l]);
     Plotly.newPlot('chart-distribution', [{
-      type: 'pie',
-      labels, values, hole: 0.55,
-      marker: { colors, line: { color: 'white', width: 2 } },
+      type: 'pie', labels, values, hole: 0.6,
+      marker: { colors, line: { color:'white', width:2 } },
       textinfo: 'percent+label',
       textfont: { size: 11 },
-    }], { ...BASE_LAYOUT, title: { text: 'Comment sentiment', font: { size: 13 }, x: 0.02, xanchor: 'left' } }, PLOTLY_CONFIG);
+    }], { ...BASE_LAYOUT, margin:{ l:10, r:10, t:10, b:30 } }, PLOTLY_CFG);
   }
 
   function drawPlatform(comments) {
-    const traces = SENTIMENTS.map(s => ({
-      x: PLATFORMS,
-      y: PLATFORMS.map(p => comments.filter(c => c.platform === p && c.sentiment === s).length),
-      type: 'bar',
-      name: s,
-      marker: { color: PALETTE[s] },
+    const platforms = ['instagram','facebook'];
+    const sents = ['positive','negative','neutral','mixed'];
+    const traces = sents.map(s => ({
+      x: platforms,
+      y: platforms.map(p => comments.filter(c=>c.platform===p && c.sentiment===s).length),
+      type: 'bar', name: s, marker: { color: PALETTE[s] },
     }));
     Plotly.newPlot('chart-platform', traces, {
-      ...BASE_LAYOUT,
-      barmode: 'stack',
-      title: { text: 'Sentiment by platform', font: { size: 13 }, x: 0.02, xanchor: 'left' },
-      yaxis: { ...BASE_LAYOUT.yaxis, title: 'Comments' },
+      ...BASE_LAYOUT, barmode: 'stack',
+      yaxis: { ...BASE_LAYOUT.yaxis, title: 'Comentarios' },
       xaxis: { ...BASE_LAYOUT.xaxis, title: '' },
-    }, PLOTLY_CONFIG);
+    }, PLOTLY_CFG);
+  }
+
+  function drawTimeline(comments, days) {
+    const today = new Date();
+    const buckets = {};
+    for (let d = days-1; d >= 0; d--) {
+      const dt = new Date(today); dt.setDate(today.getDate()-d);
+      const k = dt.toISOString().slice(0,10);
+      buckets[k] = { positive: 0, negative: 0, neutral: 0, mixed: 0 };
+    }
+    for (const c of comments) {
+      const k = c.date.toISOString().slice(0,10);
+      if (buckets[k]) buckets[k][c.sentiment]++;
+    }
+    const xs = Object.keys(buckets);
+    const traces = ['positive','negative','neutral','mixed'].map(s => ({
+      x: xs, y: xs.map(x => buckets[x][s]),
+      name: s, type: 'scatter', mode: 'lines',
+      stackgroup: 'one', line: { width: 0.5, color: PALETTE[s] },
+      fillcolor: PALETTE[s],
+    }));
+    Plotly.newPlot('chart-timeline', traces, {
+      ...BASE_LAYOUT,
+      xaxis: { ...BASE_LAYOUT.xaxis, tickformat: '%d %b' },
+      yaxis: { ...BASE_LAYOUT.yaxis, title: 'Comentarios' },
+    }, PLOTLY_CFG);
   }
 
   function drawEngagement(posts) {
-    const traces = SENTIMENTS.map(s => {
-      const points = posts.filter(p => p.sentiment === s);
+    const sents = ['positive','negative','neutral','mixed'];
+    const traces = sents.map(s => {
+      const pts = posts.filter(p=>p.sentiment===s);
       return {
-        x: points.map(p => p.score),
-        y: points.map(p => p.engagement),
-        mode: 'markers',
-        type: 'scatter',
-        name: s,
+        x: pts.map(p=>p.score), y: pts.map(p=>p.engagement),
+        mode: 'markers', type: 'scatter', name: s,
         marker: {
           color: PALETTE[s],
-          size: points.map(p => Math.max(8, Math.min(30, p.reach / 180))),
+          size: pts.map(p => Math.max(8, Math.min(32, p.reach/300))),
           line: { color: 'white', width: 0.5 },
         },
-        text: points.map(p => `${p.post_id} · ${p.platform} · ${p.author}`),
-        hovertemplate: '%{text}<br>score %{x:.2f}<br>engagement %{y}<extra></extra>',
+        text: pts.map(p => `@${p.author}: ${p.text.slice(0,70)}…`),
+        hovertemplate: '%{text}<br>score %{x:.2f} · engagement %{y}<extra></extra>',
       };
     });
     Plotly.newPlot('chart-engagement', traces, {
       ...BASE_LAYOUT,
-      title: { text: 'Engagement vs sentiment score', font: { size: 13 }, x: 0.02, xanchor: 'left' },
       xaxis: { ...BASE_LAYOUT.xaxis, title: 'Sentiment score', range: [-1.1, 1.1] },
       yaxis: { ...BASE_LAYOUT.yaxis, title: 'Engagement' },
-    }, PLOTLY_CONFIG);
+    }, PLOTLY_CFG);
   }
 
   function drawKeywords(comments) {
     const counter = {};
-    for (const c of comments) for (const kw of c.keywords) counter[kw] = (counter[kw] || 0) + 1;
-    const entries = Object.entries(counter).sort((a, b) => b[1] - a[1]).slice(0, 10).reverse();
-    const y = entries.map(e => e[0]);
-    const x = entries.map(e => e[1]);
+    for (const c of comments) for (const kw of c.keywords) counter[kw] = (counter[kw]||0)+1;
+    const entries = Object.entries(counter).sort((a,b)=>b[1]-a[1]).slice(0,10).reverse();
     Plotly.newPlot('chart-keywords', [{
-      type: 'bar',
-      orientation: 'h',
-      x, y,
+      type: 'bar', orientation: 'h',
+      x: entries.map(e=>e[1]), y: entries.map(e=>e[0]),
       marker: { color: ACCENT },
     }], {
       ...BASE_LAYOUT,
-      title: { text: 'Top keywords', font: { size: 13 }, x: 0.02, xanchor: 'left' },
       xaxis: { ...BASE_LAYOUT.xaxis, title: '' },
       yaxis: { ...BASE_LAYOUT.yaxis, title: '' },
-    }, PLOTLY_CONFIG);
+    }, PLOTLY_CFG);
   }
 
-  // ---------- Render ----------
+  function drawWordCloud(comments) {
+    // Aggregate keywords with sentiment majority
+    const wordData = {};  // word -> { total, pos, neg, neu }
+    for (const c of comments) {
+      for (const kw of c.keywords) {
+        if (!wordData[kw]) wordData[kw] = { total:0, positive:0, negative:0, neutral:0, mixed:0 };
+        wordData[kw].total++;
+        wordData[kw][c.sentiment]++;
+      }
+    }
+    // Mezclo hashtags como decoración
+    const extras = HASHTAGS.map(h => [h, randInt(5, 22), 'positive']);
+    const list = Object.entries(wordData).map(([w, s]) => {
+      const dominant = ['positive','negative','neutral'].reduce(
+        (best, k) => s[k] > s[best] ? k : best, 'neutral');
+      return [w, s.total, dominant];
+    }).sort((a,b) => b[1]-a[1]).slice(0, 50);
+
+    const items = [...list, ...extras];
+    const maxCount = Math.max(...items.map(i=>i[1]));
+
+    const canvas = document.getElementById('wordcloud-canvas');
+    // Resize to parent width at device pixel ratio to keep it crisp
+    const rect = canvas.parentElement.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width  = Math.floor(rect.width * dpr);
+    canvas.height = Math.floor(320 * dpr);
+    canvas.style.height = '320px';
+
+    WordCloud(canvas, {
+      list: items.map(([w,c,_]) => [w, c]),
+      gridSize: Math.round(8 * dpr),
+      weightFactor: (size) => (size / maxCount) * 56 * dpr,
+      fontFamily: 'Inter, Helvetica, Arial, sans-serif',
+      color: (word, weight, fontSize, distance, theta) => {
+        // recoger sentimiento dominante desde items
+        const match = items.find(i => i[0] === word);
+        if (!match) return PALETTE.neutral;
+        const s = match[2];
+        return PALETTE[s] || PALETTE.neutral;
+      },
+      backgroundColor: '#FCFAF8',
+      rotateRatio: 0.2,
+      rotationSteps: 2,
+      minRotation: 0,
+      maxRotation: Math.PI / 8,
+      shuffle: true,
+      drawOutOfBound: false,
+    });
+  }
+
+  function renderTopPosts(posts) {
+    const top = [...posts].sort((a,b) => b.engagement - a.engagement).slice(0, 5);
+    const tbody = document.querySelector('#top-posts-table tbody');
+    tbody.innerHTML = top.map(p => `
+      <tr>
+        <td>
+          <div class="post-text">${p.text.slice(0, 90)}${p.text.length>90?'…':''}</div>
+          <div class="post-meta">@${p.author} · ${p.date.toLocaleDateString('es-ES', {day:'numeric', month:'short'})}</div>
+        </td>
+        <td><span class="platform-chip">${p.platform}</span></td>
+        <td><span class="sentiment-chip ${p.sentiment}">${p.sentiment}</span></td>
+        <td style="text-align: right; font-weight: 600;">${fmtInt(p.engagement)}</td>
+      </tr>
+    `).join('');
+  }
+
+  function generateInsights(posts, comments, scenario) {
+    // Analíticas reales sobre la data generada
+    const byDay = {};
+    for (const c of comments) {
+      const k = c.date.toISOString().slice(0,10);
+      if (!byDay[k]) byDay[k] = { pos:0, neg:0, total:0 };
+      if (c.sentiment === 'positive') byDay[k].pos++;
+      if (c.sentiment === 'negative') byDay[k].neg++;
+      byDay[k].total++;
+    }
+    const days = Object.keys(byDay).sort();
+    const last3 = days.slice(-3).map(d => byDay[d]);
+    const first3 = days.slice(0, 3).map(d => byDay[d]);
+    const last3Pos = last3.reduce((s,d)=>s+d.pos,0) / Math.max(1, last3.reduce((s,d)=>s+d.total,0));
+    const first3Pos = first3.reduce((s,d)=>s+d.pos,0) / Math.max(1, first3.reduce((s,d)=>s+d.total,0));
+
+    const kwCount = {};
+    for (const c of comments) for (const kw of c.keywords) kwCount[kw] = (kwCount[kw]||0)+1;
+    const topNeg = ['precio','envío','irritación','reembolso','empaque'].map(w => [w, kwCount[w]||0]).sort((a,b)=>b[1]-a[1])[0];
+
+    const viralNeg = posts
+      .filter(p => p.sentiment === 'negative' && p.engagement > 600)
+      .sort((a,b)=>b.engagement-a.engagement)
+      .slice(0, 3);
+
+    const instaShare = posts.filter(p=>p.platform==='instagram').length / posts.length;
+
+    // Armar cards
+    const cards = [];
+
+    // Alerta 1: sentimiento cayendo
+    if (last3Pos + 0.1 < first3Pos) {
+      const drop = Math.round((first3Pos - last3Pos)*100);
+      cards.push({
+        type: 'alert',
+        label: 'Alerta',
+        title: `El sentimiento positivo bajó ${drop}% en los últimos 3 días`,
+        body: `Al inicio de la campaña el ${Math.round(first3Pos*100)}% de los comentarios eran positivos. Hoy es ${Math.round(last3Pos*100)}%.`,
+        action: `<strong>Acción:</strong> revisar comentarios recientes negativos y preparar respuesta oficial antes de fin de semana.`,
+      });
+    } else if (last3Pos > first3Pos + 0.1) {
+      const rise = Math.round((last3Pos - first3Pos)*100);
+      cards.push({
+        type: 'win',
+        label: 'Buena señal',
+        title: `El sentimiento positivo subió ${rise}% en los últimos 3 días`,
+        body: `La campaña está ganando tracción. El buzz positivo se está acelerando.`,
+        action: `<strong>Acción:</strong> amplificar con paid media los posts con más engagement antes de que el pico pase.`,
+      });
+    } else {
+      cards.push({
+        type: 'insight-neutral',
+        label: 'Observación',
+        title: 'Sentimiento estable durante toda la campaña',
+        body: 'No hay picos positivos ni negativos destacables. La conversación es constante.',
+        action: `<strong>Acción:</strong> plantear un hook viral o UGC challenge para salir de la meseta.`,
+      });
+    }
+
+    // Insight 2: keyword dominante negativa
+    if (topNeg && topNeg[1] >= 5) {
+      const recommendations = {
+        'precio':     'Evaluar comunicar mejor el valor por ml o lanzar un tamaño más accesible.',
+        'envío':      'Revisar con logística; responder con política de envío en pinned comment.',
+        'irritación': 'Preparar comunicado aclaratorio con el dermatólogo embajador.',
+        'reembolso':  'Fortalecer el FAQ y asignar CS dedicado a estas menciones.',
+        'empaque':    'Auditar los últimos lotes con el proveedor de packaging.',
+      };
+      cards.push({
+        type: 'alert',
+        label: 'Tema crítico',
+        title: `“${topNeg[0]}” aparece ${topNeg[1]} veces con sentimiento negativo`,
+        body: `Es el disparador de quejas más frecuente esta campaña.`,
+        action: `<strong>Acción:</strong> ${recommendations[topNeg[0]] || 'crear un FAQ específico.'}`,
+      });
+    }
+
+    // Insight 3: Instagram vs Facebook
+    cards.push({
+      type: 'insight-neutral',
+      label: 'Mix de canal',
+      title: `${Math.round(instaShare*100)}% de los posts vienen de Instagram`,
+      body: 'Instagram concentra la conversación visual del lanzamiento, Facebook pesa menos pero concentra los casos de postventa.',
+      action: `<strong>Acción:</strong> mantener creatividad en reels, mover CS a Facebook Messenger con respuestas guardadas.`,
+    });
+
+    // Insight 4: posts negativos virales
+    if (viralNeg.length > 0) {
+      cards.push({
+        type: 'alert',
+        label: 'Riesgo reputacional',
+        title: `${viralNeg.length} post${viralNeg.length>1?'s':''} negativo${viralNeg.length>1?'s':''} con +600 de engagement`,
+        body: `@${viralNeg[0].author}: "${viralNeg[0].text.slice(0,80)}…" (${fmtInt(viralNeg[0].engagement)} interacciones).`,
+        action: `<strong>Acción:</strong> responder públicamente en menos de 12h con tono empático y ofrecer canal directo.`,
+      });
+    }
+
+    $('insights').innerHTML = cards.slice(0, 4).map(c => `
+      <div class="insight ${c.type}">
+        <div class="insight-label">${c.label}</div>
+        <div class="insight-title">${c.title}</div>
+        <div class="insight-body">${c.body}</div>
+        <div class="insight-action">${c.action}</div>
+      </div>
+    `).join('');
+  }
+
+  // ---------------- Main render ----------------
   function render() {
     const scenario = SCENARIOS[scenarioIdx];
-    const { posts, comments } = generateData(scenario.weights);
-    const now = new Date().toISOString().slice(0, 19);
-    document.getElementById('meta').textContent =
-      `Scenario: ${scenario.name} · ${now} · ${posts.length} posts, ${comments.length} comments`;
+    const { posts, comments, days } = generate(scenario);
 
+    renderMeta(scenario, posts, comments);
     renderKpis(posts, comments);
     drawDistribution(comments);
     drawPlatform(comments);
+    drawTimeline(comments, days);
     drawEngagement(posts);
     drawKeywords(comments);
+    drawWordCloud(comments);
+    renderTopPosts(posts);
+    generateInsights(posts, comments, scenario);
   }
 
   document.getElementById('refresh-btn').addEventListener('click', render);
-  document.getElementById('flip-btn').addEventListener('click', () => {
+  document.getElementById('scenario-btn').addEventListener('click', () => {
     scenarioIdx = (scenarioIdx + 1) % SCENARIOS.length;
     render();
+  });
+
+  // Re-render charts on significant resize (plotly resizes automatically,
+  // but wordcloud doesn't — redraw it on window resize, debounced).
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 200);
   });
 
   render();
