@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Lumé Cosmetics · Social Sentiment Dashboard</title>
+  <title>Lumé Cosmetics · Social Sentiment</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Demo interactiva de análisis de sentimiento en redes sociales para un equipo de marketing." />
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
@@ -17,8 +17,8 @@
       --muted: #7A6B64;
       --muted-soft: #A89B94;
 
-      --accent: #5B6B5B;           /* sage oscuro */
-      --brand: #C9A7A7;            /* rosa polvo (brand) */
+      --accent: #5B6B5B;
+      --brand: #C9A7A7;
       --brand-dark: #A87E7E;
 
       --positive: #7BA69F;
@@ -45,7 +45,6 @@
     }
     .container { max-width: 1200px; margin: 0 auto; }
 
-    /* ---------- Header ---------- */
     header.dash-header {
       display: flex;
       justify-content: space-between;
@@ -55,38 +54,43 @@
       margin-bottom: 8px;
     }
 
-    .brand-mark {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .brand-mark { display: flex; align-items: center; gap: 12px; }
     .brand-circle {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--brand) 0%, #E8CCC7 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: -0.02em;
-      font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #fff;
+      letter-spacing: -0.02em; font-size: 16px;
     }
-
-    .brand-meta h1 {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
+    .brand-meta h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
     .brand-meta p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
 
-    .top-controls {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
+    .top-controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+    /* Lang toggle */
+    .lang-toggle {
+      display: inline-flex;
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .lang-toggle button {
+      background: transparent;
+      border: none;
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .lang-toggle button.active {
+      background: var(--text);
+      color: #fff;
     }
 
     .pill {
@@ -111,10 +115,9 @@
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s;
     }
-    .btn:hover { border-color: var(--text); background: #fff; }
+    .btn:hover { border-color: var(--text); }
     .btn.primary { background: var(--text); color: #fff; border-color: var(--text); }
 
-    /* ---------- Campaign banner ---------- */
     .campaign {
       background: linear-gradient(135deg, #FFF 0%, #FBF5F1 100%);
       border: 1px solid var(--card-border);
@@ -126,11 +129,7 @@
       gap: 16px;
       align-items: center;
     }
-    .campaign h2 {
-      margin: 0 0 4px;
-      font-size: 16px;
-      font-weight: 600;
-    }
+    .campaign h2 { margin: 0 0 4px; font-size: 16px; font-weight: 600; }
     .campaign p { margin: 0; color: var(--muted); font-size: 13px; }
     .campaign .tag {
       display: inline-block;
@@ -149,13 +148,8 @@
       font-size: 12px;
       line-height: 1.5;
     }
-    .campaign-summary strong {
-      color: var(--text);
-      font-size: 15px;
-      font-weight: 600;
-    }
+    .campaign-summary strong { color: var(--text); font-size: 15px; font-weight: 600; }
 
-    /* ---------- KPI grid ---------- */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -175,21 +169,12 @@
       letter-spacing: 0.08em;
       margin-bottom: 6px;
     }
-    .kpi-value {
-      font-size: 26px;
-      font-weight: 600;
-      line-height: 1.1;
-    }
+    .kpi-value { font-size: 26px; font-weight: 600; line-height: 1.1; }
     .kpi-suffix { font-size: 14px; font-weight: 500; margin-left: 2px; }
-    .kpi-delta {
-      font-size: 11px;
-      margin-top: 4px;
-      color: var(--muted);
-    }
-    .kpi-delta.up { color: #2a7a3e; }
+    .kpi-delta { font-size: 11px; margin-top: 4px; color: var(--muted); }
+    .kpi-delta.up   { color: #2a7a3e; }
     .kpi-delta.down { color: #b04a3e; }
 
-    /* ---------- Charts grid ---------- */
     .section-title {
       font-size: 12px;
       font-weight: 600;
@@ -199,11 +184,7 @@
       margin: 28px 0 12px;
     }
 
-    .row {
-      display: grid;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
+    .row { display: grid; gap: 14px; margin-bottom: 14px; }
     .row.two { grid-template-columns: 1fr 1fr; }
     .row.one { grid-template-columns: 1fr; }
 
@@ -213,21 +194,10 @@
       border-radius: 10px;
       padding: 14px 14px 8px;
     }
-    .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      margin: 0 0 10px;
-      padding: 0 4px;
-    }
-    .card-subtitle {
-      font-size: 11px;
-      color: var(--muted);
-      margin: -8px 0 10px;
-      padding: 0 4px;
-    }
+    .card-title { font-size: 13px; font-weight: 600; margin: 0 0 10px; padding: 0 4px; }
+    .card-subtitle { font-size: 11px; color: var(--muted); margin: -8px 0 10px; padding: 0 4px; }
     .chart-slot { width: 100%; height: 280px; }
 
-    /* ---------- Word cloud ---------- */
     .wordcloud-card { padding: 20px; }
     .wordcloud-canvas {
       width: 100%;
@@ -245,19 +215,9 @@
       flex-wrap: wrap;
     }
     .wordcloud-legend span { display: inline-flex; align-items: center; gap: 6px; }
-    .wordcloud-legend .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-    }
+    .wordcloud-legend .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 
-    /* ---------- Top posts table ---------- */
-    .posts-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
+    .posts-table { width: 100%; border-collapse: collapse; font-size: 12px; }
     .posts-table th, .posts-table td {
       text-align: left;
       padding: 10px 8px;
@@ -299,12 +259,7 @@
       text-transform: capitalize;
     }
 
-    /* ---------- Insights cards ---------- */
-    .insights-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
+    .insights-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .insight {
       border-radius: 10px;
       padding: 16px 18px;
@@ -313,8 +268,8 @@
       flex-direction: column;
       gap: 6px;
     }
-    .insight.alert  { background: var(--alert-bg); border-color: var(--alert-border); }
-    .insight.win    { background: var(--win-bg);  border-color: var(--win-border); }
+    .insight.alert           { background: var(--alert-bg);   border-color: var(--alert-border); }
+    .insight.win             { background: var(--win-bg);     border-color: var(--win-border); }
     .insight.insight-neutral { background: var(--insight-bg); border-color: var(--insight-border); }
 
     .insight-label {
@@ -323,20 +278,12 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
-    .insight.alert .insight-label   { color: #a74a2f; }
-    .insight.win .insight-label     { color: #3f6d63; }
-    .insight.insight-neutral .insight-label { color: #8c6c50; }
+    .insight.alert .insight-label            { color: #a74a2f; }
+    .insight.win .insight-label              { color: #3f6d63; }
+    .insight.insight-neutral .insight-label  { color: #8c6c50; }
 
-    .insight-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-    }
-    .insight-body {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
+    .insight-title { font-size: 14px; font-weight: 600; color: var(--text); }
+    .insight-body { font-size: 13px; color: var(--muted); line-height: 1.5; }
     .insight-action {
       font-size: 12px;
       margin-top: 4px;
@@ -346,7 +293,6 @@
     }
     .insight-action strong { color: var(--text); }
 
-    /* ---------- Footer ---------- */
     footer {
       margin-top: 40px;
       font-size: 11px;
@@ -357,7 +303,6 @@
     footer a { color: var(--muted); }
     footer a:hover { color: var(--text); }
 
-    /* ---------- Responsive breakpoints ---------- */
     @media (max-width: 980px) {
       .kpi-grid { grid-template-columns: repeat(3, 1fr); }
     }
@@ -378,100 +323,98 @@
 <body>
 <div class="container">
 
-  <!-- HEADER -->
   <header class="dash-header">
     <div class="brand-mark">
       <div class="brand-circle">L</div>
       <div class="brand-meta">
-        <h1>Lumé Cosmetics · Social Sentiment</h1>
-        <p id="report-meta">Loading…</p>
+        <h1 data-i18n="brand_title">Lumé Cosmetics · Análisis de Sentimiento</h1>
+        <p id="report-meta">—</p>
       </div>
     </div>
     <div class="top-controls">
-      <span class="pill">demo data</span>
-      <button class="btn" id="refresh-btn">↻ Regenerar</button>
-      <button class="btn primary" id="scenario-btn">Escenario: lanzamiento</button>
+      <div class="lang-toggle" role="tablist" aria-label="Idioma">
+        <button id="lang-es" class="active" type="button">ES</button>
+        <button id="lang-en" type="button">EN</button>
+      </div>
+      <span class="pill" data-i18n="pill_demo">datos demo</span>
+      <button class="btn" id="refresh-btn" data-i18n="btn_refresh">↻ Regenerar</button>
+      <button class="btn primary" id="scenario-btn">—</button>
     </div>
   </header>
 
-  <!-- CAMPAIGN BANNER -->
   <div class="campaign">
     <div>
-      <span class="tag">campaña activa</span>
-      <h2>Lanzamiento · Sérum Glow Révéal</h2>
-      <p id="campaign-copy">14 días de buzz en Facebook e Instagram tras el drop del nuevo sérum antiedad.</p>
+      <span class="tag" data-i18n="campaign_tag">campaña activa</span>
+      <h2 data-i18n="campaign_title">Lanzamiento · Sérum Glow Révéal</h2>
+      <p data-i18n="campaign_copy">14 días de buzz en Facebook e Instagram tras el lanzamiento del nuevo sérum antiedad.</p>
     </div>
     <div class="campaign-summary">
-      <strong>Hashtag principal</strong><br>
+      <strong data-i18n="campaign_hashtag_label">Hashtag principal</strong><br>
       #glowreveal · #lumeroutine<br>
-      <strong id="campaign-reach">— alcance total</strong>
+      <strong id="campaign-reach">—</strong>
     </div>
   </div>
 
-  <!-- KPIs -->
-  <div class="section-title">Resumen ejecutivo</div>
+  <div class="section-title" data-i18n="section_summary">Resumen ejecutivo</div>
   <div class="kpi-grid" id="kpis"></div>
 
-  <!-- CHARTS -->
-  <div class="section-title">Análisis de sentimiento</div>
+  <div class="section-title" data-i18n="section_analysis">Análisis de sentimiento</div>
   <div class="row two">
     <div class="card">
-      <h3 class="card-title">Distribución de sentimiento</h3>
-      <p class="card-subtitle">Comentarios clasificados en positivo, negativo, neutro y mixto</p>
+      <h3 class="card-title" data-i18n="chart_dist_title">Distribución de sentimiento</h3>
+      <p class="card-subtitle" data-i18n="chart_dist_sub">Comentarios clasificados en positivo, negativo, neutro y mixto.</p>
       <div class="chart-slot" id="chart-distribution"></div>
     </div>
     <div class="card">
-      <h3 class="card-title">Sentimiento por plataforma</h3>
-      <p class="card-subtitle">Dónde se concentra la conversación</p>
+      <h3 class="card-title" data-i18n="chart_platform_title">Sentimiento por plataforma</h3>
+      <p class="card-subtitle" data-i18n="chart_platform_sub">Dónde se concentra la conversación.</p>
       <div class="chart-slot" id="chart-platform"></div>
     </div>
   </div>
 
   <div class="row two">
     <div class="card">
-      <h3 class="card-title">Evolución en el tiempo</h3>
-      <p class="card-subtitle">Cómo ha ido cambiando el sentimiento día a día</p>
+      <h3 class="card-title" data-i18n="chart_timeline_title">Evolución en el tiempo</h3>
+      <p class="card-subtitle" data-i18n="chart_timeline_sub">Cómo ha ido cambiando el sentimiento día a día.</p>
       <div class="chart-slot" id="chart-timeline"></div>
     </div>
     <div class="card">
-      <h3 class="card-title">Engagement vs sentimiento</h3>
-      <p class="card-subtitle">Tamaño = alcance del post</p>
+      <h3 class="card-title" data-i18n="chart_engagement_title">Engagement vs sentimiento</h3>
+      <p class="card-subtitle" data-i18n="chart_engagement_sub">Tamaño del punto = alcance del post.</p>
       <div class="chart-slot" id="chart-engagement"></div>
     </div>
   </div>
 
-  <!-- WORD CLOUD -->
-  <div class="section-title">De qué hablan los usuarios</div>
+  <div class="section-title" data-i18n="section_words">De qué hablan los usuarios</div>
   <div class="row one">
     <div class="card wordcloud-card">
-      <h3 class="card-title">Nube de palabras</h3>
-      <p class="card-subtitle">Las palabras más repetidas en los comentarios. El color indica el sentimiento dominante de cada palabra.</p>
+      <h3 class="card-title" data-i18n="wc_title">Nube de palabras</h3>
+      <p class="card-subtitle" data-i18n="wc_sub">Las palabras más repetidas en los comentarios. El color indica el sentimiento dominante de cada palabra.</p>
       <canvas id="wordcloud-canvas" class="wordcloud-canvas"></canvas>
       <div class="wordcloud-legend">
-        <span><i class="dot" style="background: var(--positive)"></i> positivo</span>
-        <span><i class="dot" style="background: var(--negative)"></i> negativo</span>
-        <span><i class="dot" style="background: var(--neutral)"></i> neutro</span>
+        <span><i class="dot" style="background: var(--positive)"></i> <span data-i18n="s_positive">positivo</span></span>
+        <span><i class="dot" style="background: var(--negative)"></i> <span data-i18n="s_negative">negativo</span></span>
+        <span><i class="dot" style="background: var(--neutral)"></i> <span data-i18n="s_neutral">neutro</span></span>
       </div>
     </div>
   </div>
 
-  <!-- TOP KEYWORDS + TOP POSTS -->
   <div class="row two">
     <div class="card">
-      <h3 class="card-title">Top keywords por frecuencia</h3>
-      <p class="card-subtitle">Temas más discutidos esta campaña</p>
+      <h3 class="card-title" data-i18n="kw_title">Top palabras por frecuencia</h3>
+      <p class="card-subtitle" data-i18n="kw_sub">Temas más discutidos esta campaña.</p>
       <div class="chart-slot" id="chart-keywords"></div>
     </div>
     <div class="card">
-      <h3 class="card-title">Top posts por engagement</h3>
-      <p class="card-subtitle">Los 5 con más reacciones en la campaña</p>
+      <h3 class="card-title" data-i18n="top_title">Top posts por engagement</h3>
+      <p class="card-subtitle" data-i18n="top_sub">Los 5 con más reacciones en la campaña.</p>
       <table class="posts-table" id="top-posts-table">
         <thead>
           <tr>
-            <th>Post</th>
-            <th>Plataforma</th>
-            <th>Sentimiento</th>
-            <th style="text-align: right;">Engagement</th>
+            <th data-i18n="th_post">Post</th>
+            <th data-i18n="th_platform">Plataforma</th>
+            <th data-i18n="th_sentiment">Sentimiento</th>
+            <th style="text-align: right;" data-i18n="th_engagement">Engagement</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -479,29 +422,266 @@
     </div>
   </div>
 
-  <!-- INSIGHTS -->
-  <div class="section-title">Insights accionables para marketing</div>
+  <div class="section-title" data-i18n="section_insights">Insights accionables para marketing</div>
   <div class="insights-grid" id="insights"></div>
 
   <footer>
-    Demo interactiva ·
+    <span data-i18n="footer_demo">Demo interactiva</span> ·
     <a href="https://github.com/mflorgar/social-sentiment-analyzer" target="_blank" rel="noopener">social-sentiment-analyzer</a>
-    · Marca ficticia “Lumé Cosmetics” creada para este demo.<br>
-    Hecha por <a href="https://linkedin.com/in/mariafloresgarcia" target="_blank" rel="noopener">María Flores</a>.
+    · <span data-i18n="footer_fiction">Marca ficticia “Lumé Cosmetics” creada para este demo.</span><br>
+    <span data-i18n="footer_by">Hecha por</span>
+    <a href="https://linkedin.com/in/mariafloresgarcia" target="_blank" rel="noopener">María Flores</a>.
   </footer>
 
 </div>
 
 <script>
-  // ---------------- Palette ----------------
-  const PALETTE = {
-    positive: '#7BA69F',
-    negative: '#C8856D',
-    neutral:  '#9CA3AF',
-    mixed:    '#C9A89A',
+  // ============================================================
+  // i18n
+  // ============================================================
+  const I18N = {
+    es: {
+      // UI labels
+      brand_title: 'Lumé Cosmetics · Análisis de Sentimiento',
+      pill_demo: 'datos demo',
+      btn_refresh: '↻ Regenerar',
+      btn_scenario: 'Escenario: {scenario}',
+      campaign_tag: 'campaña activa',
+      campaign_title: 'Lanzamiento · Sérum Glow Révéal',
+      campaign_copy: '14 días de buzz en Facebook e Instagram tras el lanzamiento del nuevo sérum antiedad.',
+      campaign_hashtag_label: 'Hashtag principal',
+      campaign_reach: '{n} alcance total',
+
+      section_summary: 'Resumen ejecutivo',
+      section_analysis: 'Análisis de sentimiento',
+      section_words: 'De qué hablan los usuarios',
+      section_insights: 'Insights accionables para marketing',
+
+      chart_dist_title: 'Distribución de sentimiento',
+      chart_dist_sub: 'Comentarios clasificados en positivo, negativo, neutro y mixto.',
+      chart_platform_title: 'Sentimiento por plataforma',
+      chart_platform_sub: 'Dónde se concentra la conversación.',
+      chart_timeline_title: 'Evolución en el tiempo',
+      chart_timeline_sub: 'Cómo ha ido cambiando el sentimiento día a día.',
+      chart_engagement_title: 'Engagement vs sentimiento',
+      chart_engagement_sub: 'Tamaño del punto = alcance del post.',
+
+      wc_title: 'Nube de palabras',
+      wc_sub: 'Las palabras más repetidas en los comentarios. El color indica el sentimiento dominante de cada palabra.',
+
+      kw_title: 'Top palabras por frecuencia',
+      kw_sub: 'Temas más discutidos esta campaña.',
+      top_title: 'Top posts por engagement',
+      top_sub: 'Los 5 con más reacciones en la campaña.',
+
+      th_post: 'Publicación',
+      th_platform: 'Plataforma',
+      th_sentiment: 'Sentimiento',
+      th_engagement: 'Engagement',
+
+      s_positive: 'positivo',
+      s_negative: 'negativo',
+      s_neutral: 'neutro',
+      s_mixed: 'mixto',
+
+      kpi_posts: 'Publicaciones',
+      kpi_comments: 'Comentarios',
+      kpi_net: 'Sentimiento neto',
+      kpi_positive: 'Positivos',
+      kpi_negative: 'Negativos',
+
+      delta_vs_month: '{d} vs mes anterior',
+      delta_pos_minus_neg: 'positivos % – negativos %',
+
+      axis_comments: 'Comentarios',
+      axis_engagement: 'Engagement',
+      axis_score: 'Score de sentimiento',
+
+      report_meta: 'Campaña “Sérum Glow Révéal” · {scenario} · generado {ts}',
+
+      scen_launch: 'Lanzamiento',
+      scen_crisis: 'Crisis de reseñas',
+      scen_organic: 'Mes orgánico',
+
+      // Insights copy
+      i_label_alert: 'Alerta',
+      i_label_win: 'Buena señal',
+      i_label_obs: 'Observación',
+      i_label_critic: 'Tema crítico',
+      i_label_mix: 'Mix de canal',
+      i_label_risk: 'Riesgo reputacional',
+
+      i_action: 'Acción',
+
+      i_drop_title: 'El sentimiento positivo bajó {d}% en los últimos 3 días',
+      i_drop_body: 'Al inicio de la campaña el {a}% de los comentarios eran positivos. Ahora es {b}%.',
+      i_drop_action: 'Revisar comentarios recientes negativos y preparar respuesta oficial antes del fin de semana.',
+
+      i_rise_title: 'El sentimiento positivo subió {d}% en los últimos 3 días',
+      i_rise_body: 'La campaña está ganando tracción. El buzz positivo se está acelerando.',
+      i_rise_action: 'Amplificar con paid media los posts con más engagement antes de que el pico pase.',
+
+      i_flat_title: 'Sentimiento estable durante toda la campaña',
+      i_flat_body: 'No hay picos positivos ni negativos destacables. La conversación es constante.',
+      i_flat_action: 'Plantear un hook viral o un reto de contenido generado por usuarios para salir de la meseta.',
+
+      i_kw_title: '“{kw}” aparece {n} veces con sentimiento negativo',
+      i_kw_body: 'Es el disparador de quejas más frecuente esta campaña.',
+      i_kw_actions: {
+        'precio':     'Evaluar comunicar mejor el valor por ml o lanzar un tamaño más accesible.',
+        'envío':      'Revisar con logística; responder con política de envío en un comentario fijado.',
+        'irritación': 'Preparar comunicado aclaratorio con la dermatóloga embajadora.',
+        'reembolso':  'Fortalecer el FAQ y asignar atención al cliente dedicada a estas menciones.',
+        'empaque':    'Auditar los últimos lotes con el proveedor de packaging.',
+      },
+      i_kw_action_fallback: 'Crear un FAQ específico para este tema.',
+
+      i_mix_title: '{n}% de las publicaciones vienen de Instagram',
+      i_mix_body: 'Instagram concentra la conversación visual del lanzamiento; Facebook pesa menos pero agrupa los casos de postventa.',
+      i_mix_action: 'Mantener creatividad en reels y mover atención al cliente a Facebook Messenger con respuestas guardadas.',
+
+      i_risk_title: '{n} publicación{plural} negativa{plural} con +600 de engagement',
+      i_risk_body: '@{author}: “{text}…” ({eng} interacciones).',
+      i_risk_action: 'Responder públicamente en menos de 12 h con tono empático y ofrecer canal directo.',
+
+      footer_demo: 'Demo interactiva',
+      footer_fiction: 'Marca ficticia “Lumé Cosmetics” creada para este demo.',
+      footer_by: 'Hecha por',
+    },
+    en: {
+      brand_title: 'Lumé Cosmetics · Social Sentiment',
+      pill_demo: 'demo data',
+      btn_refresh: '↻ Regenerate',
+      btn_scenario: 'Scenario: {scenario}',
+      campaign_tag: 'active campaign',
+      campaign_title: 'Launch · Glow Révéal Serum',
+      campaign_copy: '14 days of buzz on Facebook and Instagram after the drop of our new anti-aging serum.',
+      campaign_hashtag_label: 'Main hashtag',
+      campaign_reach: '{n} total reach',
+
+      section_summary: 'Executive summary',
+      section_analysis: 'Sentiment analysis',
+      section_words: 'What users are talking about',
+      section_insights: 'Actionable insights for marketing',
+
+      chart_dist_title: 'Sentiment distribution',
+      chart_dist_sub: 'Comments classified as positive, negative, neutral or mixed.',
+      chart_platform_title: 'Sentiment by platform',
+      chart_platform_sub: 'Where the conversation concentrates.',
+      chart_timeline_title: 'Evolution over time',
+      chart_timeline_sub: 'How sentiment has shifted day by day.',
+      chart_engagement_title: 'Engagement vs sentiment',
+      chart_engagement_sub: 'Point size = post reach.',
+
+      wc_title: 'Word cloud',
+      wc_sub: 'The most repeated words in comments. Color indicates the dominant sentiment for each word.',
+
+      kw_title: 'Top keywords by frequency',
+      kw_sub: 'Most discussed topics this campaign.',
+      top_title: 'Top posts by engagement',
+      top_sub: 'The 5 posts with most reactions in the campaign.',
+
+      th_post: 'Post',
+      th_platform: 'Platform',
+      th_sentiment: 'Sentiment',
+      th_engagement: 'Engagement',
+
+      s_positive: 'positive',
+      s_negative: 'negative',
+      s_neutral: 'neutral',
+      s_mixed: 'mixed',
+
+      kpi_posts: 'Posts',
+      kpi_comments: 'Comments',
+      kpi_net: 'Net sentiment',
+      kpi_positive: 'Positive',
+      kpi_negative: 'Negative',
+
+      delta_vs_month: '{d} vs last month',
+      delta_pos_minus_neg: 'positive % – negative %',
+
+      axis_comments: 'Comments',
+      axis_engagement: 'Engagement',
+      axis_score: 'Sentiment score',
+
+      report_meta: 'Campaign “Glow Révéal Serum” · {scenario} · generated {ts}',
+
+      scen_launch: 'Launch',
+      scen_crisis: 'Review crisis',
+      scen_organic: 'Organic month',
+
+      i_label_alert: 'Alert',
+      i_label_win: 'Good signal',
+      i_label_obs: 'Observation',
+      i_label_critic: 'Critical topic',
+      i_label_mix: 'Channel mix',
+      i_label_risk: 'Reputation risk',
+
+      i_action: 'Action',
+
+      i_drop_title: 'Positive sentiment dropped {d}% in the last 3 days',
+      i_drop_body: 'At the start of the campaign {a}% of comments were positive. Now it is {b}%.',
+      i_drop_action: 'Review recent negative comments and prepare an official response before the weekend.',
+
+      i_rise_title: 'Positive sentiment rose {d}% in the last 3 days',
+      i_rise_body: 'The campaign is gaining traction. Positive buzz is accelerating.',
+      i_rise_action: 'Amplify with paid media the top-engagement posts before the peak fades.',
+
+      i_flat_title: 'Stable sentiment throughout the campaign',
+      i_flat_body: 'No noticeable positive or negative peaks. The conversation is steady.',
+      i_flat_action: 'Set up a viral hook or a user-generated-content challenge to break the plateau.',
+
+      i_kw_title: '“{kw}” appears {n} times with negative sentiment',
+      i_kw_body: 'It is the most frequent complaint trigger this campaign.',
+      i_kw_actions: {
+        'precio':     'Communicate value per ml better or launch a more affordable size.',
+        'envío':      'Check with logistics; reply with the shipping policy as a pinned comment.',
+        'irritación': 'Prepare a clarifying statement with the brand dermatologist.',
+        'reembolso':  'Strengthen the FAQ and assign dedicated CS to these mentions.',
+        'empaque':    'Audit the latest batches with the packaging supplier.',
+      },
+      i_kw_action_fallback: 'Create a dedicated FAQ for this topic.',
+
+      i_mix_title: '{n}% of posts come from Instagram',
+      i_mix_body: 'Instagram hosts the visual conversation for the launch; Facebook has less volume but concentrates post-sale cases.',
+      i_mix_action: 'Keep creative energy on Reels and move CS to Facebook Messenger with saved replies.',
+
+      i_risk_title: '{n} negative post{plural} with +600 engagement',
+      i_risk_body: '@{author}: “{text}…” ({eng} interactions).',
+      i_risk_action: 'Reply publicly within 12 h with an empathetic tone and offer a direct channel.',
+
+      footer_demo: 'Interactive demo',
+      footer_fiction: 'Fictional brand “Lumé Cosmetics” built for this demo.',
+      footer_by: 'Built by',
+    },
   };
+
+  let LANG = 'es';
+  function t(key, params) {
+    const dict = I18N[LANG];
+    let v = dict[key];
+    if (v === undefined) return key;
+    if (typeof v === 'string' && params) {
+      for (const [k, val] of Object.entries(params)) {
+        v = v.replaceAll(`{${k}}`, val);
+      }
+    }
+    return v;
+  }
+
+  function applyStaticI18n() {
+    document.documentElement.lang = LANG;
+    document.title = t('brand_title');
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      el.textContent = t(el.dataset.i18n);
+    });
+  }
+
+  // ============================================================
+  // Palette & Plotly base
+  // ============================================================
+  const PALETTE = { positive: '#7BA69F', negative: '#C8856D', neutral: '#9CA3AF', mixed: '#C9A89A' };
   const ACCENT = '#5B6B5B';
-  const BRAND = '#C9A7A7';
   const GRID = '#ECECE9';
 
   const BASE_LAYOUT = {
@@ -515,80 +695,96 @@
   };
   const PLOTLY_CFG = { displaylogo: false, responsive: true };
 
-  // ---------------- Mock data ----------------
+  // ============================================================
+  // Mock data
+  // ============================================================
   const SCENARIOS = [
-    {
-      name: 'lanzamiento',
-      label: 'Lanzamiento',
-      weights: { positive: 0.56, negative: 0.16, neutral: 0.22, mixed: 0.06 },
-      trend: 'rising',
-    },
-    {
-      name: 'crisis',
-      label: 'Crisis de reviews',
-      weights: { positive: 0.22, negative: 0.54, neutral: 0.16, mixed: 0.08 },
-      trend: 'falling',
-    },
-    {
-      name: 'organico',
-      label: 'Mes orgánico',
-      weights: { positive: 0.36, negative: 0.22, neutral: 0.34, mixed: 0.08 },
-      trend: 'flat',
-    },
+    { name: 'launch',  key: 'scen_launch',  weights: { positive: 0.56, negative: 0.16, neutral: 0.22, mixed: 0.06 }, trend: 'rising'  },
+    { name: 'crisis',  key: 'scen_crisis',  weights: { positive: 0.22, negative: 0.54, neutral: 0.16, mixed: 0.08 }, trend: 'falling' },
+    { name: 'organic', key: 'scen_organic', weights: { positive: 0.36, negative: 0.22, neutral: 0.34, mixed: 0.08 }, trend: 'flat'    },
   ];
   let scenarioIdx = 0;
 
-  const SPANISH_AUTHORS = [
-    'ana_beauty', 'paula.nights', 'lucia_glow', 'martarouge', 'lagatubela',
-    'clarinette', 'sofia_etc', 'valerie.b', 'rocioamarte', 'malu_skin',
-    'bellevanille', 'lu_cosmetica', 'helena_skin', 'nayra_ruiz', 'camila_r',
-    'inesstyle', 'evaporcel', 'noor_beauty', 'julietaflores', 'amelieeeee',
+  const AUTHORS = [
+    'ana_beauty','paula.nights','lucia_glow','martarouge','lagatubela',
+    'clarinette','sofia_etc','valerie.b','rocioamarte','malu_skin',
+    'bellevanille','lu_cosmetica','helena_skin','nayra_ruiz','camila_r',
+    'inesstyle','evaporcel','noor_beauty','julietaflores','amelieeeee',
   ];
 
-  // ---- sample post texts with sentiment hints (in Spanish for Meta demo) ----
-  const POST_TEMPLATES_POS = [
+  const POST_POS_ES = [
     'Llevo dos semanas con el Sérum Glow Révéal y mi piel luce muchísimo mejor, tono unificado y brillo real.',
     'Por fin un sérum que huele increíble y no deja la cara pegajosa. Mi rutina de la mañana ya no es la misma.',
-    'Textura ligera, se absorbe rápido y la piel queda como filtro. Le doy 10/10 al nuevo lanzamiento de Lumé.',
+    'Textura ligera, se absorbe rápido y la piel queda como filtro. 10/10 al nuevo lanzamiento de Lumé.',
     'Mi madre me robó el sérum, así que tendré que comprar otro. Buena señal jaja.',
     'Después de un mes, mis manchas están notablemente más claras. Vale cada euro.',
   ];
-  const POST_TEMPLATES_NEG = [
+  const POST_NEG_ES = [
     'Me llegó el envío tarde y encima la caja venía abollada. Muy mal servicio de Lumé esta vez.',
     'El precio del nuevo sérum se pasa, por 45€ esperaba más volumen. Decepcionada.',
     'Me dio una irritación horrible, pensé que era hipoalergénico. Voy a pedir reembolso.',
     'Pagué el envío exprés y llegó igual que el normal. ¿Dónde reclamo?',
     'No noto diferencia después de 10 días. Marketing puro.',
   ];
-  const POST_TEMPLATES_NEU = [
-    'Acabo de recibir el Sérum Glow Révéal, empezaré a usarlo hoy. Ya os iré contando.',
-    'Alguien sabe si se puede usar con retinol? La descripción no es clara.',
+  const POST_NEU_ES = [
+    'Acabo de recibir el Sérum Glow Révéal, empezaré a usarlo hoy. Ya os contaré.',
+    '¿Alguien sabe si se puede usar con retinol? La descripción no es clara.',
     'Recibido en 3 días. Empaque bonito, típico de Lumé.',
     '¿Se puede usar en piel mixta? Gracias de antemano.',
     'Repasando los ingredientes, veo que tiene niacinamida y ácido hialurónico.',
   ];
-  const POST_TEMPLATES_MIX = [
-    'Me encanta el aroma y la textura, pero el precio me parece alto para 30ml.',
-    'Buen producto pero el envío tardó 8 días. Mejorar logística por favor.',
+  const POST_MIX_ES = [
+    'Me encanta el aroma y la textura, pero el precio me parece alto para 30 ml.',
+    'Buen producto, pero el envío tardó 8 días. A mejorar la logística.',
     'El sérum funciona, eso sí, pero el frasco se atasca con frecuencia.',
   ];
 
-  const WORDS_POS = ['glow','piel','suave','amo','hidratación','luminosidad','textura','rutina','aroma','resultados','manchas','brillo','acabado','impecable','absorbe'];
-  const WORDS_NEG = ['precio','caro','irritación','envío','tardanza','reembolso','decepción','alergia','empaque','abollado','reclamo','logística','devolución','pegajoso'];
-  const WORDS_NEU = ['producto','ingredientes','retinol','niacinamida','tamaño','frasco','descripción','consulta','pregunta','información','días','rutina','noche','mañana'];
+  const POST_POS_EN = [
+    'Two weeks in with Glow Révéal Serum and my skin looks so much better, even tone and real glow.',
+    'Finally a serum that smells great and is not sticky. Morning routine upgraded.',
+    'Lightweight texture, absorbs fast and leaves a filter-like finish. 10/10 for this Lumé launch.',
+    'My mom stole my serum, so I need to buy another one. Good sign lol.',
+    'After one month my dark spots are visibly lighter. Worth every euro.',
+  ];
+  const POST_NEG_EN = [
+    'Shipment arrived late and the box was dented. Really bad service this time.',
+    'The price of the new serum is steep — 45€ for that volume? Disappointed.',
+    'I got terrible irritation, thought it was hypoallergenic. Asking for a refund.',
+    'Paid express shipping and it arrived the same as standard. Where do I complain?',
+    'I see no difference after 10 days. Pure marketing.',
+  ];
+  const POST_NEU_EN = [
+    'Just received Glow Révéal Serum, starting today. Will report back.',
+    'Anyone knows if this can be used with retinol? The description is unclear.',
+    'Arrived in 3 days. Nice packaging, classic Lumé.',
+    'Can it be used on combination skin? Thanks in advance.',
+    'Looking at the ingredients, I see niacinamide and hyaluronic acid.',
+  ];
+  const POST_MIX_EN = [
+    'I love the scent and texture, but the price feels high for 30 ml.',
+    'Good product, but shipping took 8 days. Logistics to improve.',
+    'The serum works, but the bottle clogs up often.',
+  ];
+
+  const WORDS = {
+    es: {
+      positive: ['glow','piel','suave','amo','hidratación','luminosidad','textura','rutina','aroma','resultados','manchas','brillo','acabado','impecable','absorbe'],
+      negative: ['precio','caro','irritación','envío','tardanza','reembolso','decepción','alergia','empaque','abollado','reclamo','logística','devolución','pegajoso'],
+      neutral:  ['producto','ingredientes','retinol','niacinamida','tamaño','frasco','descripción','consulta','pregunta','información','días','rutina','noche','mañana'],
+    },
+    en: {
+      positive: ['glow','skin','smooth','love','hydration','radiance','texture','routine','scent','results','spots','shine','finish','flawless','absorbs'],
+      negative: ['price','expensive','irritation','shipping','delay','refund','disappointed','allergy','packaging','dented','claim','logistics','return','sticky'],
+      neutral:  ['product','ingredients','retinol','niacinamide','size','bottle','description','question','inquiry','information','days','routine','night','morning'],
+    },
+  };
 
   const HASHTAGS = ['#glowreveal','#lumeroutine','#serumglow','#skincare','#rutinanatural','#meta'];
 
-  function sentimentWords(s) {
-    if (s === 'positive') return WORDS_POS;
-    if (s === 'negative') return WORDS_NEG;
-    if (s === 'neutral')  return WORDS_NEU;
-    return [...WORDS_POS.slice(0,4), ...WORDS_NEG.slice(0,4)];
-  }
+  function randInt(min, max) { return Math.floor(Math.random()*(max-min+1))+min; }
 
   function pickSentiment(weights) {
-    const r = Math.random();
-    let acc = 0;
+    const r = Math.random(); let acc = 0;
     for (const s of ['positive','negative','neutral','mixed']) {
       acc += weights[s];
       if (r < acc) return s;
@@ -596,30 +792,35 @@
     return 'neutral';
   }
 
-  function templateFor(s) {
-    if (s === 'positive') return POST_TEMPLATES_POS[Math.floor(Math.random()*POST_TEMPLATES_POS.length)];
-    if (s === 'negative') return POST_TEMPLATES_NEG[Math.floor(Math.random()*POST_TEMPLATES_NEG.length)];
-    if (s === 'neutral')  return POST_TEMPLATES_NEU[Math.floor(Math.random()*POST_TEMPLATES_NEU.length)];
-    return POST_TEMPLATES_MIX[Math.floor(Math.random()*POST_TEMPLATES_MIX.length)];
+  function templateFor(sentiment) {
+    const pool = {
+      es: { positive: POST_POS_ES, negative: POST_NEG_ES, neutral: POST_NEU_ES, mixed: POST_MIX_ES },
+      en: { positive: POST_POS_EN, negative: POST_NEG_EN, neutral: POST_NEU_EN, mixed: POST_MIX_EN },
+    }[LANG][sentiment];
+    return pool[Math.floor(Math.random()*pool.length)];
   }
 
-  function randInt(min, max) { return Math.floor(Math.random()*(max-min+1))+min; }
+  function sentimentWords(s) {
+    const dict = WORDS[LANG];
+    if (s === 'positive') return dict.positive;
+    if (s === 'negative') return dict.negative;
+    if (s === 'neutral')  return dict.neutral;
+    return [...dict.positive.slice(0,4), ...dict.negative.slice(0,4)];
+  }
 
   function generate(scenario) {
     const { weights, trend } = scenario;
     const posts = [];
     const comments = [];
-
     const days = 14;
     const today = new Date();
-
     const NUM_POSTS = 25;
+
     for (let i = 0; i < NUM_POSTS; i++) {
       const platform = Math.random() < 0.55 ? 'instagram' : 'facebook';
       const sentiment = pickSentiment(weights);
       const dayOffset = randInt(0, days - 1);
       const date = new Date(today); date.setDate(today.getDate() - dayOffset);
-
       const reach = randInt(600, 12000);
       const engagement = Math.floor(reach * (0.03 + Math.random()*0.15));
       const text = templateFor(sentiment);
@@ -627,33 +828,26 @@
       posts.push({
         post_id: `p_${i}`,
         platform,
-        author: SPANISH_AUTHORS[i % SPANISH_AUTHORS.length],
-        text,
-        sentiment,
+        author: AUTHORS[i % AUTHORS.length],
+        text, sentiment,
         score: ({
           positive: 0.3 + Math.random()*0.7,
           negative: -0.3 - Math.random()*0.7,
           neutral: -0.15 + Math.random()*0.3,
           mixed: -0.2 + Math.random()*0.4,
         })[sentiment],
-        engagement,
-        reach,
-        date,
+        engagement, reach, date,
       });
 
       const numComments = randInt(3, 14);
       for (let c = 0; c < numComments; c++) {
-        // Bias comment sentiment con el post: gente tiende a reaccionar similar
         let commentSentiment = Math.random() < 0.6 ? sentiment : pickSentiment(weights);
-        // Inyectar sesgo temporal (trend)
         if (trend === 'rising' && dayOffset < 5 && Math.random() < 0.3) commentSentiment = 'positive';
         if (trend === 'falling' && dayOffset < 5 && Math.random() < 0.3) commentSentiment = 'negative';
-
         const pool = sentimentWords(commentSentiment);
         const keywords = [];
         const nkw = randInt(1, 3);
         for (let k = 0; k < nkw; k++) keywords.push(pool[Math.floor(Math.random()*pool.length)]);
-
         comments.push({
           post_id: `p_${i}`,
           platform,
@@ -664,26 +858,28 @@
             neutral: -0.15+Math.random()*0.3,
             mixed: -0.2+Math.random()*0.4,
           })[commentSentiment],
-          keywords,
-          date,
+          keywords, date,
         });
       }
     }
-
     return { posts, comments, days };
   }
 
-  // ---------------- Renderers ----------------
+  // ============================================================
+  // Renderers
+  // ============================================================
   const $ = (id) => document.getElementById(id);
-  const fmtInt = (n) => n.toLocaleString('es-ES');
+  const fmtInt = (n) => n.toLocaleString(LANG === 'es' ? 'es-ES' : 'en-US');
 
-  function renderMeta(scenario, posts, comments) {
+  function renderHeader(scenario, posts) {
     const now = new Date();
-    $('report-meta').textContent =
-      `Campaña “Sérum Glow Révéal” · ${scenario.label} · generado ${now.toLocaleString('es-ES')}`;
+    $('report-meta').textContent = t('report_meta', {
+      scenario: t(scenario.key),
+      ts: now.toLocaleString(LANG === 'es' ? 'es-ES' : 'en-US'),
+    });
     const totalReach = posts.reduce((s,p)=>s+p.reach, 0);
-    $('campaign-reach').textContent = `${fmtInt(totalReach)} alcance total`;
-    document.getElementById('scenario-btn').textContent = `Escenario: ${scenario.label}`;
+    $('campaign-reach').textContent = t('campaign_reach', { n: fmtInt(totalReach) });
+    $('scenario-btn').textContent = t('btn_scenario', { scenario: t(scenario.key) });
   }
 
   function renderKpis(posts, comments) {
@@ -691,16 +887,14 @@
     const negative = comments.filter(c=>c.sentiment==='negative').length;
     const pos_pct = comments.length ? Math.round(positive/comments.length*1000)/10 : 0;
     const neg_pct = comments.length ? Math.round(negative/comments.length*1000)/10 : 0;
-    const avgEng = posts.length ? Math.round(posts.reduce((s,p)=>s+p.engagement,0)/posts.length) : 0;
-    // Net sentiment score (NPS-like): positive% - negative%
     const nps = Math.round((pos_pct - neg_pct)*10)/10;
 
     const kpis = [
-      { label: 'Posts',    value: posts.length, suffix: '', delta: '+18% vs mes anterior', deltaClass: 'up' },
-      { label: 'Comments', value: comments.length, suffix: '', delta: '+42% vs mes anterior', deltaClass: 'up' },
-      { label: 'Net sentiment', value: (nps>0?'+':'')+nps, suffix: '%', delta: 'pos% – neg%', deltaClass: '' },
-      { label: 'Positivos', value: pos_pct, suffix: '%', color: PALETTE.positive },
-      { label: 'Negativos', value: neg_pct, suffix: '%', color: PALETTE.negative },
+      { label: t('kpi_posts'),    value: posts.length,    suffix: '', delta: t('delta_vs_month', { d: '+18%' }), deltaClass: 'up' },
+      { label: t('kpi_comments'), value: comments.length, suffix: '', delta: t('delta_vs_month', { d: '+42%' }), deltaClass: 'up' },
+      { label: t('kpi_net'),      value: (nps>0?'+':'')+nps, suffix: '%', delta: t('delta_pos_minus_neg') },
+      { label: t('kpi_positive'), value: pos_pct, suffix: '%', color: PALETTE.positive },
+      { label: t('kpi_negative'), value: neg_pct, suffix: '%', color: PALETTE.negative },
     ];
 
     $('kpis').innerHTML = kpis.map(k => `
@@ -717,9 +911,9 @@
   function drawDistribution(comments) {
     const counts = {};
     for (const c of comments) counts[c.sentiment] = (counts[c.sentiment]||0)+1;
-    const labels = Object.keys(counts);
-    const values = labels.map(l => counts[l]);
-    const colors = labels.map(l => PALETTE[l]);
+    const labels = Object.keys(counts).map(s => t('s_' + s));
+    const values = Object.keys(counts).map(l => counts[l]);
+    const colors = Object.keys(counts).map(l => PALETTE[l]);
     Plotly.newPlot('chart-distribution', [{
       type: 'pie', labels, values, hole: 0.6,
       marker: { colors, line: { color:'white', width:2 } },
@@ -734,11 +928,11 @@
     const traces = sents.map(s => ({
       x: platforms,
       y: platforms.map(p => comments.filter(c=>c.platform===p && c.sentiment===s).length),
-      type: 'bar', name: s, marker: { color: PALETTE[s] },
+      type: 'bar', name: t('s_' + s), marker: { color: PALETTE[s] },
     }));
     Plotly.newPlot('chart-platform', traces, {
       ...BASE_LAYOUT, barmode: 'stack',
-      yaxis: { ...BASE_LAYOUT.yaxis, title: 'Comentarios' },
+      yaxis: { ...BASE_LAYOUT.yaxis, title: t('axis_comments') },
       xaxis: { ...BASE_LAYOUT.xaxis, title: '' },
     }, PLOTLY_CFG);
   }
@@ -758,14 +952,14 @@
     const xs = Object.keys(buckets);
     const traces = ['positive','negative','neutral','mixed'].map(s => ({
       x: xs, y: xs.map(x => buckets[x][s]),
-      name: s, type: 'scatter', mode: 'lines',
+      name: t('s_' + s), type: 'scatter', mode: 'lines',
       stackgroup: 'one', line: { width: 0.5, color: PALETTE[s] },
       fillcolor: PALETTE[s],
     }));
     Plotly.newPlot('chart-timeline', traces, {
       ...BASE_LAYOUT,
       xaxis: { ...BASE_LAYOUT.xaxis, tickformat: '%d %b' },
-      yaxis: { ...BASE_LAYOUT.yaxis, title: 'Comentarios' },
+      yaxis: { ...BASE_LAYOUT.yaxis, title: t('axis_comments') },
     }, PLOTLY_CFG);
   }
 
@@ -775,7 +969,7 @@
       const pts = posts.filter(p=>p.sentiment===s);
       return {
         x: pts.map(p=>p.score), y: pts.map(p=>p.engagement),
-        mode: 'markers', type: 'scatter', name: s,
+        mode: 'markers', type: 'scatter', name: t('s_' + s),
         marker: {
           color: PALETTE[s],
           size: pts.map(p => Math.max(8, Math.min(32, p.reach/300))),
@@ -787,8 +981,8 @@
     });
     Plotly.newPlot('chart-engagement', traces, {
       ...BASE_LAYOUT,
-      xaxis: { ...BASE_LAYOUT.xaxis, title: 'Sentiment score', range: [-1.1, 1.1] },
-      yaxis: { ...BASE_LAYOUT.yaxis, title: 'Engagement' },
+      xaxis: { ...BASE_LAYOUT.xaxis, title: t('axis_score'), range: [-1.1, 1.1] },
+      yaxis: { ...BASE_LAYOUT.yaxis, title: t('axis_engagement') },
     }, PLOTLY_CFG);
   }
 
@@ -808,8 +1002,7 @@
   }
 
   function drawWordCloud(comments) {
-    // Aggregate keywords with sentiment majority
-    const wordData = {};  // word -> { total, pos, neg, neu }
+    const wordData = {};
     for (const c of comments) {
       for (const kw of c.keywords) {
         if (!wordData[kw]) wordData[kw] = { total:0, positive:0, negative:0, neutral:0, mixed:0 };
@@ -817,19 +1010,16 @@
         wordData[kw][c.sentiment]++;
       }
     }
-    // Mezclo hashtags como decoración
     const extras = HASHTAGS.map(h => [h, randInt(5, 22), 'positive']);
     const list = Object.entries(wordData).map(([w, s]) => {
       const dominant = ['positive','negative','neutral'].reduce(
         (best, k) => s[k] > s[best] ? k : best, 'neutral');
       return [w, s.total, dominant];
     }).sort((a,b) => b[1]-a[1]).slice(0, 50);
-
     const items = [...list, ...extras];
     const maxCount = Math.max(...items.map(i=>i[1]));
 
-    const canvas = document.getElementById('wordcloud-canvas');
-    // Resize to parent width at device pixel ratio to keep it crisp
+    const canvas = $('wordcloud-canvas');
     const rect = canvas.parentElement.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
     canvas.width  = Math.floor(rect.width * dpr);
@@ -841,12 +1031,10 @@
       gridSize: Math.round(8 * dpr),
       weightFactor: (size) => (size / maxCount) * 56 * dpr,
       fontFamily: 'Inter, Helvetica, Arial, sans-serif',
-      color: (word, weight, fontSize, distance, theta) => {
-        // recoger sentimiento dominante desde items
+      color: (word) => {
         const match = items.find(i => i[0] === word);
         if (!match) return PALETTE.neutral;
-        const s = match[2];
-        return PALETTE[s] || PALETTE.neutral;
+        return PALETTE[match[2]] || PALETTE.neutral;
       },
       backgroundColor: '#FCFAF8',
       rotateRatio: 0.2,
@@ -861,21 +1049,21 @@
   function renderTopPosts(posts) {
     const top = [...posts].sort((a,b) => b.engagement - a.engagement).slice(0, 5);
     const tbody = document.querySelector('#top-posts-table tbody');
+    const localeDate = LANG === 'es' ? 'es-ES' : 'en-US';
     tbody.innerHTML = top.map(p => `
       <tr>
         <td>
           <div class="post-text">${p.text.slice(0, 90)}${p.text.length>90?'…':''}</div>
-          <div class="post-meta">@${p.author} · ${p.date.toLocaleDateString('es-ES', {day:'numeric', month:'short'})}</div>
+          <div class="post-meta">@${p.author} · ${p.date.toLocaleDateString(localeDate, {day:'numeric', month:'short'})}</div>
         </td>
         <td><span class="platform-chip">${p.platform}</span></td>
-        <td><span class="sentiment-chip ${p.sentiment}">${p.sentiment}</span></td>
+        <td><span class="sentiment-chip ${p.sentiment}">${t('s_' + p.sentiment)}</span></td>
         <td style="text-align: right; font-weight: 600;">${fmtInt(p.engagement)}</td>
       </tr>
     `).join('');
   }
 
-  function generateInsights(posts, comments, scenario) {
-    // Analíticas reales sobre la data generada
+  function generateInsights(posts, comments) {
     const byDay = {};
     for (const c of comments) {
       const k = c.date.toISOString().slice(0,10);
@@ -892,7 +1080,10 @@
 
     const kwCount = {};
     for (const c of comments) for (const kw of c.keywords) kwCount[kw] = (kwCount[kw]||0)+1;
-    const topNeg = ['precio','envío','irritación','reembolso','empaque'].map(w => [w, kwCount[w]||0]).sort((a,b)=>b[1]-a[1])[0];
+    const negKwEs = ['precio','envío','irritación','reembolso','empaque'];
+    const negKwEn = ['price','shipping','irritation','refund','packaging'];
+    const allNeg = [...negKwEs, ...negKwEn];
+    const topNeg = allNeg.map(w => [w, kwCount[w]||0]).sort((a,b)=>b[1]-a[1])[0];
 
     const viralNeg = posts
       .filter(p => p.sentiment === 'negative' && p.engagement > 600)
@@ -900,74 +1091,64 @@
       .slice(0, 3);
 
     const instaShare = posts.filter(p=>p.platform==='instagram').length / posts.length;
-
-    // Armar cards
     const cards = [];
 
-    // Alerta 1: sentimiento cayendo
     if (last3Pos + 0.1 < first3Pos) {
       const drop = Math.round((first3Pos - last3Pos)*100);
       cards.push({
-        type: 'alert',
-        label: 'Alerta',
-        title: `El sentimiento positivo bajó ${drop}% en los últimos 3 días`,
-        body: `Al inicio de la campaña el ${Math.round(first3Pos*100)}% de los comentarios eran positivos. Hoy es ${Math.round(last3Pos*100)}%.`,
-        action: `<strong>Acción:</strong> revisar comentarios recientes negativos y preparar respuesta oficial antes de fin de semana.`,
+        type: 'alert', label: t('i_label_alert'),
+        title: t('i_drop_title', { d: drop }),
+        body: t('i_drop_body', { a: Math.round(first3Pos*100), b: Math.round(last3Pos*100) }),
+        action: `<strong>${t('i_action')}:</strong> ${t('i_drop_action')}`,
       });
     } else if (last3Pos > first3Pos + 0.1) {
       const rise = Math.round((last3Pos - first3Pos)*100);
       cards.push({
-        type: 'win',
-        label: 'Buena señal',
-        title: `El sentimiento positivo subió ${rise}% en los últimos 3 días`,
-        body: `La campaña está ganando tracción. El buzz positivo se está acelerando.`,
-        action: `<strong>Acción:</strong> amplificar con paid media los posts con más engagement antes de que el pico pase.`,
+        type: 'win', label: t('i_label_win'),
+        title: t('i_rise_title', { d: rise }),
+        body: t('i_rise_body'),
+        action: `<strong>${t('i_action')}:</strong> ${t('i_rise_action')}`,
       });
     } else {
       cards.push({
-        type: 'insight-neutral',
-        label: 'Observación',
-        title: 'Sentimiento estable durante toda la campaña',
-        body: 'No hay picos positivos ni negativos destacables. La conversación es constante.',
-        action: `<strong>Acción:</strong> plantear un hook viral o UGC challenge para salir de la meseta.`,
+        type: 'insight-neutral', label: t('i_label_obs'),
+        title: t('i_flat_title'),
+        body: t('i_flat_body'),
+        action: `<strong>${t('i_action')}:</strong> ${t('i_flat_action')}`,
       });
     }
 
-    // Insight 2: keyword dominante negativa
     if (topNeg && topNeg[1] >= 5) {
-      const recommendations = {
-        'precio':     'Evaluar comunicar mejor el valor por ml o lanzar un tamaño más accesible.',
-        'envío':      'Revisar con logística; responder con política de envío en pinned comment.',
-        'irritación': 'Preparar comunicado aclaratorio con el dermatólogo embajador.',
-        'reembolso':  'Fortalecer el FAQ y asignar CS dedicado a estas menciones.',
-        'empaque':    'Auditar los últimos lotes con el proveedor de packaging.',
-      };
+      // normalizar a clave ES para lookup de recomendación
+      const esMap = { price:'precio', shipping:'envío', irritation:'irritación', refund:'reembolso', packaging:'empaque' };
+      const esKey = esMap[topNeg[0]] || topNeg[0];
+      const actions = I18N[LANG].i_kw_actions || {};
+      const act = actions[esKey] || actions[topNeg[0]] || I18N[LANG].i_kw_action_fallback;
       cards.push({
-        type: 'alert',
-        label: 'Tema crítico',
-        title: `“${topNeg[0]}” aparece ${topNeg[1]} veces con sentimiento negativo`,
-        body: `Es el disparador de quejas más frecuente esta campaña.`,
-        action: `<strong>Acción:</strong> ${recommendations[topNeg[0]] || 'crear un FAQ específico.'}`,
+        type: 'alert', label: t('i_label_critic'),
+        title: t('i_kw_title', { kw: topNeg[0], n: topNeg[1] }),
+        body: t('i_kw_body'),
+        action: `<strong>${t('i_action')}:</strong> ${act}`,
       });
     }
 
-    // Insight 3: Instagram vs Facebook
     cards.push({
-      type: 'insight-neutral',
-      label: 'Mix de canal',
-      title: `${Math.round(instaShare*100)}% de los posts vienen de Instagram`,
-      body: 'Instagram concentra la conversación visual del lanzamiento, Facebook pesa menos pero concentra los casos de postventa.',
-      action: `<strong>Acción:</strong> mantener creatividad en reels, mover CS a Facebook Messenger con respuestas guardadas.`,
+      type: 'insight-neutral', label: t('i_label_mix'),
+      title: t('i_mix_title', { n: Math.round(instaShare*100) }),
+      body: t('i_mix_body'),
+      action: `<strong>${t('i_action')}:</strong> ${t('i_mix_action')}`,
     });
 
-    // Insight 4: posts negativos virales
     if (viralNeg.length > 0) {
       cards.push({
-        type: 'alert',
-        label: 'Riesgo reputacional',
-        title: `${viralNeg.length} post${viralNeg.length>1?'s':''} negativo${viralNeg.length>1?'s':''} con +600 de engagement`,
-        body: `@${viralNeg[0].author}: "${viralNeg[0].text.slice(0,80)}…" (${fmtInt(viralNeg[0].engagement)} interacciones).`,
-        action: `<strong>Acción:</strong> responder públicamente en menos de 12h con tono empático y ofrecer canal directo.`,
+        type: 'alert', label: t('i_label_risk'),
+        title: t('i_risk_title', { n: viralNeg.length, plural: viralNeg.length>1 ? 's' : '' }),
+        body: t('i_risk_body', {
+          author: viralNeg[0].author,
+          text: viralNeg[0].text.slice(0,80),
+          eng: fmtInt(viralNeg[0].engagement),
+        }),
+        action: `<strong>${t('i_action')}:</strong> ${t('i_risk_action')}`,
       });
     }
 
@@ -981,12 +1162,15 @@
     `).join('');
   }
 
-  // ---------------- Main render ----------------
+  // ============================================================
+  // Main render
+  // ============================================================
   function render() {
+    applyStaticI18n();
     const scenario = SCENARIOS[scenarioIdx];
     const { posts, comments, days } = generate(scenario);
 
-    renderMeta(scenario, posts, comments);
+    renderHeader(scenario, posts);
     renderKpis(posts, comments);
     drawDistribution(comments);
     drawPlatform(comments);
@@ -995,7 +1179,15 @@
     drawKeywords(comments);
     drawWordCloud(comments);
     renderTopPosts(posts);
-    generateInsights(posts, comments, scenario);
+    generateInsights(posts, comments);
+  }
+
+  function setLang(lang) {
+    if (lang === LANG) return;
+    LANG = lang;
+    document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+    render();
   }
 
   document.getElementById('refresh-btn').addEventListener('click', render);
@@ -1003,9 +1195,9 @@
     scenarioIdx = (scenarioIdx + 1) % SCENARIOS.length;
     render();
   });
+  document.getElementById('lang-es').addEventListener('click', () => setLang('es'));
+  document.getElementById('lang-en').addEventListener('click', () => setLang('en'));
 
-  // Re-render charts on significant resize (plotly resizes automatically,
-  // but wordcloud doesn't — redraw it on window resize, debounced).
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
