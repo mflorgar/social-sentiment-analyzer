@@ -24,7 +24,7 @@
       --positive: #7BA69F;
       --negative: #C8856D;
       --neutral:  #9CA3AF;
-      --mixed:    #C9A89A;
+      --mixed:    #C7A368;
 
       --alert-bg: #FDF2EE;
       --alert-border: #E8C8BB;
@@ -123,11 +123,7 @@
       border: 1px solid var(--card-border);
       border-radius: 12px;
       padding: 18px 20px;
-      margin: 20px 0 24px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 20px;
-      align-items: center;
+      margin: 20px 0 18px;
     }
     .campaign h2 { margin: 0 0 4px; font-size: 16px; font-weight: 600; }
     .campaign p { margin: 0; color: var(--muted); font-size: 13px; }
@@ -149,11 +145,17 @@
     }
     .campaign-meta strong { color: var(--text); font-weight: 600; }
 
-    .scenario-control {
+    .scenario-bar {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    .scenario-bar-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
     }
     .scenario-hint {
       font-size: 11px;
@@ -163,6 +165,7 @@
     .scenario-hint::after { content: ' →'; opacity: 0.6; }
     .scenario-tabs {
       display: inline-flex;
+      flex-wrap: wrap;
       background: #fff;
       border: 1px solid var(--card-border);
       border-radius: 999px;
@@ -192,6 +195,26 @@
       0%, 100% { box-shadow: 0 0 0 0 rgba(201, 167, 167, 0); }
       50%      { box-shadow: 0 0 0 8px rgba(201, 167, 167, 0.22); }
     }
+    .scenario-desc {
+      margin: 0;
+      padding: 0 4px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .scenario-desc strong { color: var(--text); font-weight: 600; }
+
+    .dashboard-intro {
+      margin: 0 0 16px;
+      padding: 14px 18px;
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .dashboard-intro strong { color: var(--text); }
 
     .hero-insight {
       display: grid;
@@ -325,7 +348,7 @@
     .sentiment-chip.positive { background: #E4EFEC; color: #3f6d63; }
     .sentiment-chip.negative { background: #F5E2D9; color: #8c5541; }
     .sentiment-chip.neutral  { background: #EAECEF; color: #4f5764; }
-    .sentiment-chip.mixed    { background: #F2E7DF; color: #7a5c4a; }
+    .sentiment-chip.mixed    { background: #F4EAD2; color: #7a5e2a; }
 
     .platform-chip {
       display: inline-block;
@@ -387,9 +410,6 @@
     @media (max-width: 760px) {
       .row.two { grid-template-columns: 1fr; }
       .insights-grid { grid-template-columns: 1fr; }
-      .campaign { grid-template-columns: 1fr; }
-      .scenario-control { align-items: flex-start; }
-      .scenario-tabs { flex-wrap: wrap; }
     }
     @media (max-width: 520px) {
       .kpi-grid { grid-template-columns: repeat(2, 1fr); }
@@ -418,23 +438,29 @@
     </div>
   </header>
 
+  <p class="dashboard-intro" data-i18n="dashboard_intro">
+    Esta demo simula el análisis automático de comentarios de Facebook e Instagram para una campaña de marketing. El pipeline clasifica cada comentario por sentimiento, agrupa los temas y genera <strong>alertas accionables</strong>. Los datos son ficticios; cambia el escenario para ver tres realidades posibles.
+  </p>
+
   <div class="campaign">
-    <div>
-      <span class="tag" data-i18n="campaign_tag">campaña activa</span>
-      <h2 data-i18n="campaign_title">Lanzamiento · Sérum Glow Révéal</h2>
-      <p data-i18n="campaign_copy">14 días de buzz en Facebook e Instagram tras el lanzamiento del nuevo sérum antiedad.</p>
-      <p class="campaign-meta">
-        #glowreveal · #lumeroutine · <strong id="campaign-reach">—</strong>
-      </p>
-    </div>
-    <div class="scenario-control">
-      <span class="scenario-hint" data-i18n="scenario_hint">Prueba un escenario</span>
+    <span class="tag" data-i18n="campaign_tag">campaña activa</span>
+    <h2 data-i18n="campaign_title">Lanzamiento · Sérum Glow Révéal</h2>
+    <p data-i18n="campaign_copy">14 días de buzz en Facebook e Instagram tras el lanzamiento del nuevo sérum antiedad.</p>
+    <p class="campaign-meta">
+      #glowreveal · #lumeroutine · <strong id="campaign-reach">—</strong>
+    </p>
+  </div>
+
+  <div class="scenario-bar">
+    <div class="scenario-bar-head">
+      <span class="scenario-hint" data-i18n="scenario_hint">Prueba otro escenario</span>
       <div class="scenario-tabs" role="tablist" aria-label="Escenario">
         <button class="scenario-tab" data-scenario="0" type="button" data-i18n="scen_launch">Lanzamiento</button>
         <button class="scenario-tab active" data-scenario="1" type="button" data-i18n="scen_crisis">Crisis</button>
         <button class="scenario-tab" data-scenario="2" type="button" data-i18n="scen_organic">Mes orgánico</button>
       </div>
     </div>
+    <p class="scenario-desc" id="scenario-desc">—</p>
   </div>
 
   <div class="hero-insight" id="hero-insight" hidden></div>
@@ -463,8 +489,8 @@
       <div class="chart-slot" id="chart-timeline"></div>
     </div>
     <div class="card">
-      <h3 class="card-title" data-i18n="chart_engagement_title">Engagement vs sentimiento</h3>
-      <p class="card-subtitle" data-i18n="chart_engagement_sub">Tamaño del punto = alcance del post.</p>
+      <h3 class="card-title" data-i18n="chart_engagement_title">Interacciones vs sentimiento</h3>
+      <p class="card-subtitle" data-i18n="chart_engagement_sub">Cada punto es una publicación. Eje X: tono. Eje Y: interacciones. Tamaño: alcance.</p>
       <div class="chart-slot" id="chart-engagement"></div>
     </div>
   </div>
@@ -485,20 +511,20 @@
 
   <div class="row two">
     <div class="card">
-      <h3 class="card-title" data-i18n="kw_title">Top palabras por frecuencia</h3>
-      <p class="card-subtitle" data-i18n="kw_sub">Temas más discutidos esta campaña.</p>
+      <h3 class="card-title" data-i18n="kw_title">Temas más mencionados</h3>
+      <p class="card-subtitle" data-i18n="kw_sub">El color de la barra indica el sentimiento dominante del tema.</p>
       <div class="chart-slot" id="chart-keywords"></div>
     </div>
     <div class="card">
-      <h3 class="card-title" data-i18n="top_title">Top posts por engagement</h3>
-      <p class="card-subtitle" data-i18n="top_sub">Los 5 con más reacciones en la campaña.</p>
+      <h3 class="card-title" data-i18n="top_title">Publicaciones con más interacciones</h3>
+      <p class="card-subtitle" data-i18n="top_sub">Las 5 publicaciones con más reacciones, comentarios y compartidos.</p>
       <table class="posts-table" id="top-posts-table">
         <thead>
           <tr>
             <th data-i18n="th_post">Post</th>
             <th data-i18n="th_platform">Plataforma</th>
             <th data-i18n="th_sentiment">Sentimiento</th>
-            <th style="text-align: right;" data-i18n="th_engagement">Engagement</th>
+            <th style="text-align: right;" data-i18n="th_engagement">Interacciones</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -527,41 +553,46 @@
     es: {
       // UI labels
       brand_title: 'Lumé Cosmetics · Análisis de Sentimiento',
+      dashboard_intro: 'Esta demo simula el análisis automático de comentarios de Facebook e Instagram para una campaña de marketing. El pipeline clasifica cada comentario por sentimiento, agrupa los temas y genera <strong>alertas accionables</strong>. Los datos son ficticios; cambia el escenario para ver tres realidades posibles.',
       campaign_tag: 'campaña activa',
       campaign_title: 'Lanzamiento · Sérum Glow Révéal',
-      campaign_copy: '14 días de buzz en Facebook e Instagram tras el lanzamiento del nuevo sérum antiedad.',
+      campaign_copy: '14 días de conversación en Facebook e Instagram tras el lanzamiento del nuevo sérum antiedad.',
       campaign_reach: '{n} de alcance',
       scenario_hint: 'Prueba otro escenario',
       scen_launch:  'Lanzamiento',
       scen_crisis:  'Crisis',
       scen_organic: 'Mes orgánico',
 
+      desc_launch:  '<strong>Lanzamiento exitoso.</strong> El buzz es mayoritariamente positivo y crece con los días. El sistema sugiere amplificar contenido y aprovechar el pico.',
+      desc_crisis:  '<strong>Crisis de reseñas.</strong> Quejas por irritación, precio y envíos. El sistema detecta el riesgo y propone acciones de contención antes de que escale.',
+      desc_organic: '<strong>Mes orgánico.</strong> No hay campaña activa. La conversación es equilibrada y de bajo volumen — buen momento para preparar el siguiente lanzamiento.',
+
       section_summary: 'Resumen ejecutivo',
       section_analysis: 'Análisis de sentimiento',
       section_words: 'De qué hablan los usuarios',
-      section_insights: 'Insights accionables para marketing',
+      section_insights: 'Recomendaciones accionables para marketing',
 
-      chart_dist_title: 'Distribución de sentimiento',
-      chart_dist_sub: 'Comentarios clasificados en positivo, negativo, neutro y mixto.',
+      chart_dist_title: 'Distribución del sentimiento',
+      chart_dist_sub: 'Cómo se reparten los comentarios entre positivos, negativos, neutros y mixtos.',
       chart_platform_title: 'Sentimiento por plataforma',
-      chart_platform_sub: 'Dónde se concentra la conversación.',
-      chart_timeline_title: 'Evolución en el tiempo',
-      chart_timeline_sub: 'Cómo ha ido cambiando el sentimiento día a día.',
-      chart_engagement_title: 'Engagement vs sentimiento',
-      chart_engagement_sub: 'Tamaño del punto = alcance del post.',
+      chart_platform_sub: 'Dónde se concentra la conversación: Instagram para el buzz visual, Facebook para postventa.',
+      chart_timeline_title: 'Evolución día a día',
+      chart_timeline_sub: 'Cómo cambia el volumen y el tono de la conversación a lo largo de los 14 días.',
+      chart_engagement_title: 'Interacciones vs sentimiento',
+      chart_engagement_sub: 'Cada punto es una publicación. Eje X: tono. Eje Y: interacciones. Tamaño: alcance. Lo de abajo a la izquierda es el riesgo: posts negativos virales.',
 
       wc_title: 'Nube de palabras',
-      wc_sub: 'Las palabras más repetidas en los comentarios. El color indica el sentimiento dominante de cada palabra.',
+      wc_sub: 'Las palabras más repetidas en los comentarios. El color refleja el sentimiento dominante de cada palabra.',
 
-      kw_title: 'Top palabras por frecuencia',
-      kw_sub: 'Temas más discutidos esta campaña.',
-      top_title: 'Top posts por engagement',
-      top_sub: 'Los 5 con más reacciones en la campaña.',
+      kw_title: 'Temas más mencionados',
+      kw_sub: 'El color de la barra indica el sentimiento dominante del tema. Las barras rojizas son temas problemáticos.',
+      top_title: 'Publicaciones con más interacciones',
+      top_sub: 'Las 5 publicaciones con más reacciones, comentarios y compartidos en esta campaña.',
 
       th_post: 'Publicación',
       th_platform: 'Plataforma',
       th_sentiment: 'Sentimiento',
-      th_engagement: 'Engagement',
+      th_engagement: 'Interacciones',
 
       s_positive: 'positivo',
       s_negative: 'negativo',
@@ -575,11 +606,13 @@
       kpi_negative: 'Negativos',
 
       delta_vs_month: '{d} vs mes anterior',
-      delta_pos_minus_neg: 'positivos % – negativos %',
+      delta_pos_minus_neg: '% positivos − % negativos',
 
       axis_comments: 'Comentarios',
-      axis_engagement: 'Engagement',
-      axis_score: 'Score de sentimiento',
+      axis_engagement: 'Interacciones',
+      axis_score: 'Tono del comentario (−1 a +1)',
+
+      hover_engagement: 'tono %{x:.2f} · %{y} interacciones',
 
       report_meta: 'Campaña “Sérum Glow Révéal” · {scenario} · generado {ts}',
 
@@ -588,7 +621,7 @@
       i_label_win: 'Buena señal',
       i_label_obs: 'Observación',
       i_label_critic: 'Tema crítico',
-      i_label_mix: 'Mix de canal',
+      i_label_mix: 'Reparto entre canales',
       i_label_risk: 'Riesgo reputacional',
 
       i_action: 'Acción',
@@ -599,7 +632,7 @@
 
       i_rise_title: 'El sentimiento positivo subió {d}% en los últimos 3 días',
       i_rise_body: 'La campaña está ganando tracción. El buzz positivo se está acelerando.',
-      i_rise_action: 'Amplificar con paid media los posts con más engagement antes de que el pico pase.',
+      i_rise_action: 'Amplificar con publicidad pagada las publicaciones con más interacciones antes de que el pico pase.',
 
       i_flat_title: 'Sentimiento estable durante toda la campaña',
       i_flat_body: 'No hay picos positivos ni negativos destacables. La conversación es constante.',
@@ -612,7 +645,7 @@
         'envío':      'Revisar con logística; responder con política de envío en un comentario fijado.',
         'irritación': 'Preparar comunicado aclaratorio con la dermatóloga embajadora.',
         'reembolso':  'Fortalecer el FAQ y asignar atención al cliente dedicada a estas menciones.',
-        'empaque':    'Auditar los últimos lotes con el proveedor de packaging.',
+        'empaque':    'Auditar los últimos lotes con el proveedor de empaque.',
       },
       i_kw_action_fallback: 'Crear un FAQ específico para este tema.',
 
@@ -620,7 +653,7 @@
       i_mix_body: 'Instagram concentra la conversación visual del lanzamiento; Facebook pesa menos pero agrupa los casos de postventa.',
       i_mix_action: 'Mantener creatividad en reels y mover atención al cliente a Facebook Messenger con respuestas guardadas.',
 
-      i_risk_title: '{n} publicación{plural} negativa{plural} con +600 de engagement',
+      i_risk_title: '{n} publicación{plural} negativa{plural} con +600 interacciones',
       i_risk_body: '@{author}: “{text}…” ({eng} interacciones).',
       i_risk_action: 'Responder públicamente en menos de 12 h con tono empático y ofrecer canal directo.',
 
@@ -630,36 +663,41 @@
     },
     en: {
       brand_title: 'Lumé Cosmetics · Social Sentiment',
+      dashboard_intro: 'This demo simulates automated sentiment analysis of Facebook and Instagram comments for a marketing campaign. The pipeline classifies each comment, groups topics, and generates <strong>actionable alerts</strong>. Data is fictional; switch scenarios to see three possible realities.',
       campaign_tag: 'active campaign',
       campaign_title: 'Launch · Glow Révéal Serum',
-      campaign_copy: '14 days of buzz on Facebook and Instagram after the drop of our new anti-aging serum.',
+      campaign_copy: '14 days of conversation on Facebook and Instagram after the drop of our new anti-aging serum.',
       campaign_reach: '{n} reach',
       scenario_hint: 'Try another scenario',
       scen_launch:  'Launch',
       scen_crisis:  'Crisis',
       scen_organic: 'Organic month',
 
+      desc_launch:  '<strong>Successful launch.</strong> Buzz is mostly positive and growing. The system suggests amplifying the best content to ride the peak.',
+      desc_crisis:  '<strong>Review crisis.</strong> Complaints about irritation, price and shipping. The system flags the risk and proposes containment actions before it escalates.',
+      desc_organic: '<strong>Organic month.</strong> No active campaign. Conversation is balanced and low-volume — a good moment to plan the next launch.',
+
       section_summary: 'Executive summary',
       section_analysis: 'Sentiment analysis',
       section_words: 'What users are talking about',
-      section_insights: 'Actionable insights for marketing',
+      section_insights: 'Actionable recommendations for marketing',
 
       chart_dist_title: 'Sentiment distribution',
-      chart_dist_sub: 'Comments classified as positive, negative, neutral or mixed.',
+      chart_dist_sub: 'How comments split between positive, negative, neutral and mixed.',
       chart_platform_title: 'Sentiment by platform',
-      chart_platform_sub: 'Where the conversation concentrates.',
-      chart_timeline_title: 'Evolution over time',
-      chart_timeline_sub: 'How sentiment has shifted day by day.',
+      chart_platform_sub: 'Where the conversation lives: Instagram for visual buzz, Facebook for post-sale cases.',
+      chart_timeline_title: 'Day-by-day evolution',
+      chart_timeline_sub: 'How volume and tone of the conversation shift across the 14 days.',
       chart_engagement_title: 'Engagement vs sentiment',
-      chart_engagement_sub: 'Point size = post reach.',
+      chart_engagement_sub: 'Each dot is a post. X: tone. Y: engagement. Size: reach. The bottom-left is the risk zone: viral negative posts.',
 
       wc_title: 'Word cloud',
-      wc_sub: 'The most repeated words in comments. Color indicates the dominant sentiment for each word.',
+      wc_sub: 'The most repeated words in comments. Color reflects the dominant sentiment of each word.',
 
-      kw_title: 'Top keywords by frequency',
-      kw_sub: 'Most discussed topics this campaign.',
+      kw_title: 'Most-mentioned topics',
+      kw_sub: 'Bar color signals the dominant sentiment of each topic. Reddish bars are problem areas.',
       top_title: 'Top posts by engagement',
-      top_sub: 'The 5 posts with most reactions in the campaign.',
+      top_sub: 'The 5 posts with the most reactions, comments and shares this campaign.',
 
       th_post: 'Post',
       th_platform: 'Platform',
@@ -678,11 +716,13 @@
       kpi_negative: 'Negative',
 
       delta_vs_month: '{d} vs last month',
-      delta_pos_minus_neg: 'positive % – negative %',
+      delta_pos_minus_neg: '% positive − % negative',
 
       axis_comments: 'Comments',
       axis_engagement: 'Engagement',
-      axis_score: 'Sentiment score',
+      axis_score: 'Comment tone (−1 to +1)',
+
+      hover_engagement: 'tone %{x:.2f} · %{y} engagement',
 
       report_meta: 'Campaign “Glow Révéal Serum” · {scenario} · generated {ts}',
 
@@ -749,14 +789,14 @@
     document.documentElement.lang = LANG;
     document.title = t('brand_title');
     document.querySelectorAll('[data-i18n]').forEach(el => {
-      el.textContent = t(el.dataset.i18n);
+      el.innerHTML = t(el.dataset.i18n);
     });
   }
 
   // ============================================================
   // Palette & Plotly base
   // ============================================================
-  const PALETTE = { positive: '#7BA69F', negative: '#C8856D', neutral: '#9CA3AF', mixed: '#C9A89A' };
+  const PALETTE = { positive: '#7BA69F', negative: '#C8856D', neutral: '#9CA3AF', mixed: '#C7A368' };
   const ACCENT = '#5B6B5B';
   const GRID = '#ECECE9';
 
@@ -775,9 +815,9 @@
   // Mock data
   // ============================================================
   const SCENARIOS = [
-    { name: 'launch',  key: 'scen_launch',  weights: { positive: 0.56, negative: 0.16, neutral: 0.22, mixed: 0.06 }, trend: 'rising'  },
-    { name: 'crisis',  key: 'scen_crisis',  weights: { positive: 0.22, negative: 0.54, neutral: 0.16, mixed: 0.08 }, trend: 'falling' },
-    { name: 'organic', key: 'scen_organic', weights: { positive: 0.36, negative: 0.22, neutral: 0.34, mixed: 0.08 }, trend: 'flat'    },
+    { name: 'launch',  key: 'scen_launch',  descKey: 'desc_launch',  weights: { positive: 0.56, negative: 0.16, neutral: 0.22, mixed: 0.06 }, trend: 'rising'  },
+    { name: 'crisis',  key: 'scen_crisis',  descKey: 'desc_crisis',  weights: { positive: 0.22, negative: 0.54, neutral: 0.16, mixed: 0.08 }, trend: 'falling' },
+    { name: 'organic', key: 'scen_organic', descKey: 'desc_organic', weights: { positive: 0.36, negative: 0.22, neutral: 0.34, mixed: 0.08 }, trend: 'flat'    },
   ];
   let scenarioIdx = 1;
 
@@ -868,12 +908,19 @@
     return 'neutral';
   }
 
-  function templateFor(sentiment) {
-    const pool = {
+  function makeTemplatePicker() {
+    const SOURCES = {
       es: { positive: POST_POS_ES, negative: POST_NEG_ES, neutral: POST_NEU_ES, mixed: POST_MIX_ES },
       en: { positive: POST_POS_EN, negative: POST_NEG_EN, neutral: POST_NEU_EN, mixed: POST_MIX_EN },
-    }[LANG][sentiment];
-    return pool[Math.floor(Math.random()*pool.length)];
+    };
+    const queues = { positive: [], negative: [], neutral: [], mixed: [] };
+    const refill = (s) => {
+      queues[s] = [...SOURCES[LANG][s]].sort(() => Math.random() - 0.5);
+    };
+    return (sentiment) => {
+      if (queues[sentiment].length === 0) refill(sentiment);
+      return queues[sentiment].shift();
+    };
   }
 
   function sentimentWords(s) {
@@ -891,6 +938,7 @@
     const days = 14;
     const today = new Date();
     const NUM_POSTS = 25;
+    const pickTemplate = makeTemplatePicker();
 
     for (let i = 0; i < NUM_POSTS; i++) {
       const platform = Math.random() < 0.55 ? 'instagram' : 'facebook';
@@ -899,7 +947,7 @@
       const date = new Date(today); date.setDate(today.getDate() - dayOffset);
       const reach = randInt(600, 12000);
       const engagement = Math.floor(reach * (0.03 + Math.random()*0.15));
-      const text = templateFor(sentiment);
+      const text = pickTemplate(sentiment);
 
       posts.push({
         post_id: `p_${i}`,
@@ -955,6 +1003,7 @@
     });
     const totalReach = posts.reduce((s,p)=>s+p.reach, 0);
     $('campaign-reach').textContent = t('campaign_reach', { n: fmtInt(totalReach) });
+    $('scenario-desc').innerHTML = t(scenario.descKey);
     document.querySelectorAll('.scenario-tab').forEach(btn => {
       btn.classList.toggle('active', Number(btn.dataset.scenario) === scenarioIdx);
     });
@@ -1054,7 +1103,7 @@
           line: { color: 'white', width: 0.5 },
         },
         text: pts.map(p => `@${p.author}: ${p.text.slice(0,70)}…`),
-        hovertemplate: '%{text}<br>score %{x:.2f} · engagement %{y}<extra></extra>',
+        hovertemplate: '%{text}<br>' + t('hover_engagement') + '<extra></extra>',
       };
     });
     Plotly.newPlot('chart-engagement', traces, {
@@ -1066,12 +1115,23 @@
 
   function drawKeywords(comments) {
     const counter = {};
-    for (const c of comments) for (const kw of c.keywords) counter[kw] = (counter[kw]||0)+1;
-    const entries = Object.entries(counter).sort((a,b)=>b[1]-a[1]).slice(0,10).reverse();
+    for (const c of comments) {
+      for (const kw of c.keywords) {
+        if (!counter[kw]) counter[kw] = { total: 0, positive: 0, negative: 0, neutral: 0, mixed: 0 };
+        counter[kw].total++;
+        counter[kw][c.sentiment]++;
+      }
+    }
+    const entries = Object.entries(counter).sort((a,b)=>b[1].total-a[1].total).slice(0,10).reverse();
+    const colors = entries.map(([_, s]) =>
+      PALETTE[['positive','negative','neutral'].reduce((best, k) => s[k] > s[best] ? k : best, 'neutral')]
+    );
     Plotly.newPlot('chart-keywords', [{
       type: 'bar', orientation: 'h',
-      x: entries.map(e=>e[1]), y: entries.map(e=>e[0]),
-      marker: { color: ACCENT },
+      x: entries.map(([, s]) => s.total),
+      y: entries.map(([w]) => w),
+      marker: { color: colors },
+      hovertemplate: '<b>%{y}</b><br>%{x} ' + t('axis_comments').toLowerCase() + '<extra></extra>',
     }], {
       ...BASE_LAYOUT,
       xaxis: { ...BASE_LAYOUT.xaxis, title: '' },
