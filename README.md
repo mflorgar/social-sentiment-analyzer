@@ -26,8 +26,11 @@ a single self-contained HTML file with Plotly from CDN, so Vercel
 serves it without any build step. See [`demo/README.md`](demo/README.md)
 for how to deploy your own copy.
 
-Use the **Regenerar datos** button to re-roll the mock data and
-**Escenario** to cycle between positive, negative and balanced datasets.
+The whole interaction is one click: pick a scenario tab
+(*Lanzamiento* / *Crisis* / *Mes orgánico*) and the entire dashboard —
+hero insight, KPIs, charts, word cloud, post list — regenerates to
+tell that story. The page lands on *Crisis* on purpose, so the
+insight engine surfaces an actionable alert from the first second.
 
 ## Why this repo
 

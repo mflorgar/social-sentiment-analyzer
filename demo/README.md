@@ -17,9 +17,12 @@ Qué contiene:
   concretas para marketing (tipo “'precio' aparece X veces con
   sentimiento negativo → considerar comunicar mejor el valor”)
 
-Cambia de escenario con el botón **Escenario** (Lanzamiento / Crisis de
-reviews / Mes orgánico) y pulsa **Regenerar** para re-rollear los datos
-manteniendo el escenario.
+La interacción se reduce a una sola decisión: **elige un escenario**
+(Lanzamiento / Crisis / Mes orgánico) en las pestañas del header y
+todo el dashboard — KPI hero, gráficos, nube de palabras e insights —
+se regenera para contar esa historia. La demo abre por defecto en
+*Crisis* para que se vea de inmediato cómo el motor de insights
+identifica riesgos accionables.
 
 ## Detalles técnicos
 

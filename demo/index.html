@@ -126,7 +126,7 @@
       margin: 20px 0 24px;
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 16px;
+      gap: 20px;
       align-items: center;
     }
     .campaign h2 { margin: 0 0 4px; font-size: 16px; font-weight: 600; }
@@ -142,13 +142,91 @@
       text-transform: uppercase;
       margin-bottom: 6px;
     }
-    .campaign-summary {
-      text-align: right;
-      color: var(--muted);
+    .campaign-meta {
+      margin-top: 8px !important;
       font-size: 12px;
-      line-height: 1.5;
+      color: var(--muted);
     }
-    .campaign-summary strong { color: var(--text); font-size: 15px; font-weight: 600; }
+    .campaign-meta strong { color: var(--text); font-weight: 600; }
+
+    .scenario-control {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .scenario-hint {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .scenario-hint::after { content: ' →'; opacity: 0.6; }
+    .scenario-tabs {
+      display: inline-flex;
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      padding: 3px;
+      animation: hint-pulse 2.4s ease-in-out 1.2s 2 both;
+    }
+    .scenario-tabs.touched { animation: none; }
+    .scenario-tab {
+      font-family: inherit;
+      background: transparent;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .scenario-tab:hover:not(.active) { color: var(--text); }
+    .scenario-tab.active {
+      background: var(--text);
+      color: #fff;
+    }
+    @keyframes hint-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201, 167, 167, 0); }
+      50%      { box-shadow: 0 0 0 8px rgba(201, 167, 167, 0.22); }
+    }
+
+    .hero-insight {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid;
+      margin-bottom: 22px;
+      font-size: 13px;
+    }
+    .hero-insight.alert           { background: var(--alert-bg);   border-color: var(--alert-border); }
+    .hero-insight.win             { background: var(--win-bg);     border-color: var(--win-border); }
+    .hero-insight.insight-neutral { background: var(--insight-bg); border-color: var(--insight-border); }
+    .hero-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.65);
+      white-space: nowrap;
+    }
+    .hero-insight.alert           .hero-label { color: #a74a2f; }
+    .hero-insight.win             .hero-label { color: #3f6d63; }
+    .hero-insight.insight-neutral .hero-label { color: #8c6c50; }
+    .hero-title { font-weight: 600; color: var(--text); line-height: 1.4; }
+    .hero-action { color: var(--muted); font-size: 12px; line-height: 1.4; max-width: 360px; }
+    .hero-action strong { color: var(--text); margin-right: 4px; }
+    @media (max-width: 760px) {
+      .hero-insight { grid-template-columns: 1fr; gap: 8px; }
+      .hero-action { max-width: none; }
+    }
 
     .kpi-grid {
       display: grid;
@@ -310,7 +388,8 @@
       .row.two { grid-template-columns: 1fr; }
       .insights-grid { grid-template-columns: 1fr; }
       .campaign { grid-template-columns: 1fr; }
-      .campaign-summary { text-align: left; }
+      .scenario-control { align-items: flex-start; }
+      .scenario-tabs { flex-wrap: wrap; }
     }
     @media (max-width: 520px) {
       .kpi-grid { grid-template-columns: repeat(2, 1fr); }
@@ -336,9 +415,6 @@
         <button id="lang-es" class="active" type="button">ES</button>
         <button id="lang-en" type="button">EN</button>
       </div>
-      <span class="pill" data-i18n="pill_demo">datos demo</span>
-      <button class="btn" id="refresh-btn" data-i18n="btn_refresh">↻ Regenerar</button>
-      <button class="btn primary" id="scenario-btn">—</button>
     </div>
   </header>
 
@@ -347,13 +423,21 @@
       <span class="tag" data-i18n="campaign_tag">campaña activa</span>
       <h2 data-i18n="campaign_title">Lanzamiento · Sérum Glow Révéal</h2>
       <p data-i18n="campaign_copy">14 días de buzz en Facebook e Instagram tras el lanzamiento del nuevo sérum antiedad.</p>
+      <p class="campaign-meta">
+        #glowreveal · #lumeroutine · <strong id="campaign-reach">—</strong>
+      </p>
     </div>
-    <div class="campaign-summary">
-      <strong data-i18n="campaign_hashtag_label">Hashtag principal</strong><br>
-      #glowreveal · #lumeroutine<br>
-      <strong id="campaign-reach">—</strong>
+    <div class="scenario-control">
+      <span class="scenario-hint" data-i18n="scenario_hint">Prueba un escenario</span>
+      <div class="scenario-tabs" role="tablist" aria-label="Escenario">
+        <button class="scenario-tab" data-scenario="0" type="button" data-i18n="scen_launch">Lanzamiento</button>
+        <button class="scenario-tab active" data-scenario="1" type="button" data-i18n="scen_crisis">Crisis</button>
+        <button class="scenario-tab" data-scenario="2" type="button" data-i18n="scen_organic">Mes orgánico</button>
+      </div>
     </div>
   </div>
+
+  <div class="hero-insight" id="hero-insight" hidden></div>
 
   <div class="section-title" data-i18n="section_summary">Resumen ejecutivo</div>
   <div class="kpi-grid" id="kpis"></div>
@@ -443,14 +527,14 @@
     es: {
       // UI labels
       brand_title: 'Lumé Cosmetics · Análisis de Sentimiento',
-      pill_demo: 'datos demo',
-      btn_refresh: '↻ Regenerar',
-      btn_scenario: 'Escenario: {scenario}',
       campaign_tag: 'campaña activa',
       campaign_title: 'Lanzamiento · Sérum Glow Révéal',
       campaign_copy: '14 días de buzz en Facebook e Instagram tras el lanzamiento del nuevo sérum antiedad.',
-      campaign_hashtag_label: 'Hashtag principal',
-      campaign_reach: '{n} alcance total',
+      campaign_reach: '{n} de alcance',
+      scenario_hint: 'Prueba otro escenario',
+      scen_launch:  'Lanzamiento',
+      scen_crisis:  'Crisis',
+      scen_organic: 'Mes orgánico',
 
       section_summary: 'Resumen ejecutivo',
       section_analysis: 'Análisis de sentimiento',
@@ -499,10 +583,6 @@
 
       report_meta: 'Campaña “Sérum Glow Révéal” · {scenario} · generado {ts}',
 
-      scen_launch: 'Lanzamiento',
-      scen_crisis: 'Crisis de reseñas',
-      scen_organic: 'Mes orgánico',
-
       // Insights copy
       i_label_alert: 'Alerta',
       i_label_win: 'Buena señal',
@@ -550,14 +630,14 @@
     },
     en: {
       brand_title: 'Lumé Cosmetics · Social Sentiment',
-      pill_demo: 'demo data',
-      btn_refresh: '↻ Regenerate',
-      btn_scenario: 'Scenario: {scenario}',
       campaign_tag: 'active campaign',
       campaign_title: 'Launch · Glow Révéal Serum',
       campaign_copy: '14 days of buzz on Facebook and Instagram after the drop of our new anti-aging serum.',
-      campaign_hashtag_label: 'Main hashtag',
-      campaign_reach: '{n} total reach',
+      campaign_reach: '{n} reach',
+      scenario_hint: 'Try another scenario',
+      scen_launch:  'Launch',
+      scen_crisis:  'Crisis',
+      scen_organic: 'Organic month',
 
       section_summary: 'Executive summary',
       section_analysis: 'Sentiment analysis',
@@ -605,10 +685,6 @@
       axis_score: 'Sentiment score',
 
       report_meta: 'Campaign “Glow Révéal Serum” · {scenario} · generated {ts}',
-
-      scen_launch: 'Launch',
-      scen_crisis: 'Review crisis',
-      scen_organic: 'Organic month',
 
       i_label_alert: 'Alert',
       i_label_win: 'Good signal',
@@ -703,7 +779,7 @@
     { name: 'crisis',  key: 'scen_crisis',  weights: { positive: 0.22, negative: 0.54, neutral: 0.16, mixed: 0.08 }, trend: 'falling' },
     { name: 'organic', key: 'scen_organic', weights: { positive: 0.36, negative: 0.22, neutral: 0.34, mixed: 0.08 }, trend: 'flat'    },
   ];
-  let scenarioIdx = 0;
+  let scenarioIdx = 1;
 
   const AUTHORS = [
     'ana_beauty','paula.nights','lucia_glow','martarouge','lagatubela',
@@ -879,7 +955,9 @@
     });
     const totalReach = posts.reduce((s,p)=>s+p.reach, 0);
     $('campaign-reach').textContent = t('campaign_reach', { n: fmtInt(totalReach) });
-    $('scenario-btn').textContent = t('btn_scenario', { scenario: t(scenario.key) });
+    document.querySelectorAll('.scenario-tab').forEach(btn => {
+      btn.classList.toggle('active', Number(btn.dataset.scenario) === scenarioIdx);
+    });
   }
 
   function renderKpis(posts, comments) {
@@ -1063,7 +1141,7 @@
     `).join('');
   }
 
-  function generateInsights(posts, comments) {
+  function buildInsightCards(posts, comments) {
     const byDay = {};
     for (const c of comments) {
       const k = c.date.toISOString().slice(0,10);
@@ -1152,6 +1230,23 @@
       });
     }
 
+    return cards;
+  }
+
+  function renderHeroInsight(cards) {
+    const hero = $('hero-insight');
+    if (!cards.length) { hero.hidden = true; return; }
+    const top = cards.find(c => c.type === 'alert') || cards[0];
+    hero.hidden = false;
+    hero.className = 'hero-insight ' + top.type;
+    hero.innerHTML = `
+      <span class="hero-label">${top.label}</span>
+      <span class="hero-title">${top.title}</span>
+      <span class="hero-action">${top.action}</span>
+    `;
+  }
+
+  function renderInsightsGrid(cards) {
     $('insights').innerHTML = cards.slice(0, 4).map(c => `
       <div class="insight ${c.type}">
         <div class="insight-label">${c.label}</div>
@@ -1179,7 +1274,9 @@
     drawKeywords(comments);
     drawWordCloud(comments);
     renderTopPosts(posts);
-    generateInsights(posts, comments);
+    const cards = buildInsightCards(posts, comments);
+    renderHeroInsight(cards);
+    renderInsightsGrid(cards);
   }
 
   function setLang(lang) {
@@ -1190,10 +1287,14 @@
     render();
   }
 
-  document.getElementById('refresh-btn').addEventListener('click', render);
-  document.getElementById('scenario-btn').addEventListener('click', () => {
-    scenarioIdx = (scenarioIdx + 1) % SCENARIOS.length;
-    render();
+  document.querySelectorAll('.scenario-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.scenario);
+      if (idx === scenarioIdx) return;
+      scenarioIdx = idx;
+      document.querySelector('.scenario-tabs')?.classList.add('touched');
+      render();
+    });
   });
   document.getElementById('lang-es').addEventListener('click', () => setLang('es'));
   document.getElementById('lang-en').addEventListener('click', () => setLang('en'));
